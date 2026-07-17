@@ -1,0 +1,20 @@
+{
+  "design": "example_die",
+  "rev": "2.0",
+  "source_files": ["minimal.aif"],
+  "units": "um",
+  "nodes": [
+    { "id": "P1", "kind": "die_pad", "name": "P1", "xy": [0.0, 0.0] },
+    { "id": "P2", "kind": "die_pad", "name": "P2", "xy": [50.0, 0.0] },
+    { "id": "net_TX_P", "kind": "substrate_net", "name": "TX_P" },
+    { "id": "net_TX_N", "kind": "substrate_net", "name": "TX_N" },
+    { "id": "A1", "kind": "ball", "name": "TX_P", "grid": { "row": "A", "col": 1 }, "xy": [0.0, 0.0] },
+    { "id": "A2", "kind": "ball", "name": "TX_N", "grid": { "row": "A", "col": 2 }, "xy": [800.0, 0.0] }
+  ],
+  "edges": [
+    { "source": "P1", "target": "net_TX_P", "kind": "die_pad__substrate_net" },
+    { "source": "net_TX_P", "target": "A1", "kind": "substrate_net__ball" },
+    { "source": "P2", "target": "net_TX_N", "kind": "die_pad__substrate_net" },
+    { "source": "net_TX_N", "target": "A2", "kind": "substrate_net__ball" }
+  ]
+}

@@ -1,0 +1,23 @@
+; minimal AIF fixture (hand-authored). Netlist row layout:
+;   <net> <die_pad> <die_x> <die_y> <ball> <ball_x> <ball_y>
+[DATABASE]
+Version=2.0
+Units=um
+
+[DIE]
+Name=example_die
+Width=1000
+Height=1000
+
+[PADS]
+; padname type
+P1 die_opening
+P2 die_opening
+
+[NETLIST]
+TX_P P1 0 0 A1 0 0
+TX_N P2 50 0 A2 800 0
+
+[VENDOR_PRIVATE]
+secret_key=keep_me
+another=preserve_this_too
