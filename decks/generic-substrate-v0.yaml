@@ -1,0 +1,136 @@
+# =============================================================================
+# GENERIC DEFAULTS - NOT MANUFACTURING VALID - DO NOT TAPE OUT ON THIS DECK.
+# =============================================================================
+# Every value below is a representative placeholder drawn ONLY from public
+# sources (IPC-2221B / IPC-2226 generic HDI guidance, JEDEC ball-pitch families,
+# and public PCB-fab capability pages). No number is traceable to any NDA'd
+# vendor document. This is the "ASAP7" move: a shareable, clearly-labeled deck
+# that exercises the engine without leaking real design rules.
+#
+# Schema: each entry conforms to schemas/rule_ir.schema.json (v0.1.0).
+meta:
+  name: generic-substrate-v0
+  version: "0.1"
+  units_default: um
+  disclaimer: "GENERIC DEFAULTS - NOT MANUFACTURING VALID - DO NOT TAPE OUT."
+
+rules:
+  - id: SUB.TRACE.WIDTH.MIN.SIGNAL
+    source: {doc: "IPC-2226 (generic HDI)", revision: "public", table: "6-x"}
+    scope: {layer_class: signal}
+    parameter: trace_width_min
+    value: {kind: scalar, number: 25.0, units: um}
+    tier: normal
+    severity: hard
+    executability: dimensional
+    routing: external
+    lifecycle: {effective_rev: "0.1", deprecated: false}
+
+  - id: SUB.TRACE.WIDTH.MIN.SIGNAL.ADV
+    source: {doc: "public fab capability page", revision: "public"}
+    scope: {layer_class: signal}
+    parameter: trace_width_min
+    value:
+      kind: piecewise
+      variable: A
+      units: um
+      pieces:
+        - {when: "A <= 4", value: 15.0}
+        - {when: "4 < A <= 8", value: 20.0}
+        - {when: "A > 8", value: 25.0}
+    tier: advanced
+    severity: preferred
+    conditions:
+      - {param: layer_count, op: ge, value: 6}
+    executability: dimensional
+    routing: external
+    lifecycle: {effective_rev: "0.1"}
+
+  - id: SUB.SPACING.MIN.SIGNAL
+    source: {doc: "IPC-2221B (generic)", revision: "public"}
+    scope: {layer_class: signal}
+    parameter: spacing_min
+    value: {kind: scalar, number: 25.0, units: um}
+    tier: normal
+    severity: hard
+    executability: dimensional
+    routing: external
+
+  - id: SUB.DEGAS.CLEARANCE.MIN
+    source: {doc: "generic buildup guidance", revision: "public"}
+    scope: {layer_class: plane}
+    parameter: degas_to_trace_clearance_min
+    value: {kind: scalar, number: 50.0, units: um}
+    tier: normal
+    severity: hard
+    executability: dimensional
+    routing: external
+
+  - id: SUB.ANNULAR.RING.MIN
+    source: {doc: "IPC-2221B annular ring (generic)", revision: "public"}
+    parameter: annular_ring_min
+    value: {kind: scalar, number: 25.0, units: um}
+    tier: normal
+    severity: hard
+    executability: structural
+    routing: external
+
+  - id: SUB.COPPER.TO.EDGE.MIN
+    source: {doc: "public fab capability page", revision: "public"}
+    parameter: copper_to_edge_min
+    value: {kind: scalar, number: 200.0, units: um}
+    tier: normal
+    severity: hard
+    executability: dimensional
+    routing: external
+
+  - id: SUB.BALL.PAD.DIA
+    source: {doc: "JEDEC ball-pitch families (generic)", revision: "public"}
+    scope: {component_class: bga}
+    parameter: ball_grid
+    value: {kind: scalar, number: 250.0, units: um}
+    tier: normal
+    severity: preferred
+    executability: enumerated
+    routing: external
+
+  - id: SUB.COPPER.BALANCE.WINDOW
+    source: {doc: "generic copper-balance guidance", revision: "public"}
+    parameter: copper_balance_window
+    value: {kind: scalar, number: 5.0, units: mm}
+    tier: normal
+    severity: advisory
+    executability: density
+    routing: external
+
+  - id: SUB.DEGAS.COVERAGE.WINDOW
+    source: {doc: "generic degas guidance", revision: "public"}
+    parameter: degas_coverage_window
+    value: {kind: scalar, number: 5.0, units: mm}
+    tier: normal
+    severity: advisory
+    executability: density
+    routing: external
+
+  # An intentionally unknown parameter -> must surface as coverage: unimplemented,
+  # never a load error (honest-coverage doctrine).
+  - id: SUB.WARP.MAX
+    source: {doc: "generic warpage guidance", revision: "public"}
+    parameter: package_warpage_max
+    value: {kind: scalar, number: 100.0, units: um}
+    tier: normal
+    severity: advisory
+    executability: manual
+    routing: checklist
+
+  # A manual rule with a free-text condition (forces executability: manual).
+  - id: SUB.ADHESIVE.NOTE
+    source: {doc: "generic assembly note", revision: "public"}
+    parameter: conductive_adhesive_clearance_min
+    value: {kind: scalar, number: 75.0, units: um}
+    tier: normal
+    severity: advisory
+    conditions:
+      - {text: "Not applicable when non-conductive underfill is used."}
+    executability: manual
+    routing: checklist

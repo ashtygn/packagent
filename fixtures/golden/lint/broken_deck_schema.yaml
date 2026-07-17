@@ -1,0 +1,10 @@
+meta:
+  name: broken-schema
+rules:
+  - id: BAD.SEVERITY
+    source: {doc: "x"}
+    parameter: trace_width_min
+    value: {kind: scalar, number: 1.0, units: um}
+    severity: catastrophic
+    executability: dimensional
+    routing: external

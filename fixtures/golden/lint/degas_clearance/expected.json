@@ -1,0 +1,26 @@
+[
+  {
+    "rule_id": "TEST.degas_clearance",
+    "severity": "hard",
+    "location": {
+      "kind": "physical",
+      "layer": "degas",
+      "x": 55.0,
+      "y": 20.0,
+      "extent": {
+        "w": 30.0,
+        "h": 40.0
+      }
+    },
+    "measured": {
+      "value": 30.0,
+      "units": "um"
+    },
+    "required": {
+      "value": 50.0,
+      "units": "um"
+    },
+    "delta": -20.0,
+    "check_version": "0.1.0"
+  }
+]

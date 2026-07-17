@@ -1,0 +1,3 @@
+layer_class: signal
+parameter: copper_to_edge_min
+value_um: 200.0

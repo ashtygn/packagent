@@ -1,0 +1,26 @@
+[
+  {
+    "rule_id": "TEST.spacing_min",
+    "severity": "hard",
+    "location": {
+      "kind": "physical",
+      "layer": "signal",
+      "x": 45.0,
+      "y": 20.0,
+      "extent": {
+        "w": 10.0,
+        "h": 40.0
+      }
+    },
+    "measured": {
+      "value": 10.0,
+      "units": "um"
+    },
+    "required": {
+      "value": 25.0,
+      "units": "um"
+    },
+    "delta": -15.0,
+    "check_version": "0.1.0"
+  }
+]

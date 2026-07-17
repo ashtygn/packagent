@@ -1,0 +1,26 @@
+[
+  {
+    "rule_id": "TEST.width_min",
+    "severity": "hard",
+    "location": {
+      "kind": "physical",
+      "layer": "signal",
+      "x": 50.0,
+      "y": 6.0,
+      "extent": {
+        "w": 100.0,
+        "h": 12.0
+      }
+    },
+    "measured": {
+      "value": 12.0,
+      "units": "um"
+    },
+    "required": {
+      "value": 25.0,
+      "units": "um"
+    },
+    "delta": -13.0,
+    "check_version": "0.1.0"
+  }
+]

@@ -1,0 +1,3 @@
+layer_class: signal
+parameter: trace_width_min
+value_um: 25.0

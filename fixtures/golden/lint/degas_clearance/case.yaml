@@ -1,0 +1,3 @@
+layer_class: signal
+parameter: degas_to_trace_clearance_min
+value_um: 50.0

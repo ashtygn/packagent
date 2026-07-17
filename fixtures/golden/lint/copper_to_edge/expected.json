@@ -1,0 +1,21 @@
+[
+  {
+    "rule_id": "TEST.copper_to_edge",
+    "severity": "hard",
+    "location": {
+      "kind": "physical",
+      "layer": "outline",
+      "x": 35.0,
+      "y": 500.0,
+      "extent": {
+        "w": 50.0,
+        "h": 200.0
+      }
+    },
+    "required": {
+      "value": 200.0,
+      "units": "um"
+    },
+    "check_version": "0.1.0"
+  }
+]
