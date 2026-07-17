@@ -150,3 +150,24 @@ Built the two "never cut" items (per the Phase-4 cut-line) plus the provider har
   LLM calls needs an API key (set `ANTHROPIC_API_KEY` + `PKGTK_LLM_LIVE=1` to record
   cassettes) and the xlsx layer. Flagged as the Phase-4 gap. The cut-line's protected
   items (battery, cassette replay CI) are done.
+
+## Phase 6 — Integration + launch artifact
+Done: unified `pkgtk` CLI (dispatcher over verify/diff/check/models/escape/template/pdn;
+absent com/extract/ingest reported cleanly), exit-code convention (0/1/2), `make demo`
+(runs every wedge on fixtures → artifacts/ + MANIFEST.md in 3.9 s, well under 5 min,
+including the PDN PNG and clickable lyrdb), combined `benchmarks/BENCHMARKS.md` via
+`benchmarks.rollup` with a CI staleness guard, and the top-level README rewritten as the
+launch artifact (what/why, quickstart, coverage table, benchmark summary, and a
+prominent Honesty section listing every gap).
+Decisions / flagged:
+- The original 100-hour **build-plan README was preserved at `docs/build-plan.md`** (not
+  destroyed) before the top-level README was replaced with the product/launch README, as
+  Phase 6.3 specifies.
+- `benchmarks.run` now writes `BENCHMARKS.phase1.md`; the canonical combined
+  `BENCHMARKS.md` is written by `benchmarks.rollup` (avoids clobbering).
+- Screenshots/GIF media (Exit-Gate human task 2) and the v0.1.0 git tag's push are the
+  remaining human/GUI steps; the tag is created locally. Push to GitHub is still blocked
+  on credentials (see Standing context).
+- Wheel packaging: schemas/ resolve from the repo root for editable installs (what CI +
+  demo use); packaging schemas into a wheel is a follow-up (models SQL/templates are
+  already declared as package-data).

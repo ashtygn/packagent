@@ -24,7 +24,9 @@ from pkgtk.synth.ballmap_gen import GenParams, generate
 ROOT = Path(__file__).resolve().parents[1]
 CASES = ROOT / "benchmarks" / "cases.yaml"
 GOLDEN_BENCH = ROOT / "fixtures" / "golden" / "bench"
-OUT = ROOT / "benchmarks" / "BENCHMARKS.md"
+# Phase-1-only report; the canonical combined file is benchmarks/BENCHMARKS.md
+# (written by benchmarks.rollup, which aggregates every phase).
+OUT = ROOT / "benchmarks" / "BENCHMARKS.phase1.md"
 
 
 def _matches(v, exp: dict) -> bool:
