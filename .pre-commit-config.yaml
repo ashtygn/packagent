@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: golden-guard
+        name: golden-fixture guard (fixtures/golden/ is human-authored, read-only)
+        entry: python scripts/golden_guard.py
+        language: system
+        files: ^fixtures/golden/
