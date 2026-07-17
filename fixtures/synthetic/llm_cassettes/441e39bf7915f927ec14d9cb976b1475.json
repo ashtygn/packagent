@@ -1,0 +1,13 @@
+{
+  "_usage": {
+    "input_tokens": 40,
+    "output_tokens": 20
+  },
+  "confidence": 0.97,
+  "parameter": "trace_width_min",
+  "value": {
+    "kind": "scalar",
+    "number": 25,
+    "units": "um"
+  }
+}

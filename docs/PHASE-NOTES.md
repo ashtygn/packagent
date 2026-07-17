@@ -130,3 +130,23 @@ escape oracle, template checker. All pure numpy/scipy. Physics is real:
 - Phase gating note: Phase 5 was built before Phase 4's LLM core because Phase 4 is
   input-blocked (no API key, deferred xlsx) while Phase 5's entry gate (Phase-1 checks +
   Phase-2 deck) is green. Flagged deviation.
+
+## Phase 4 — LLM layer (core built; live flows deferred)
+Built the two "never cut" items (per the Phase-4 cut-line) plus the provider harness:
+- **Paranoia battery** (`src/pkgtk/llm/battery.py`): all five deterministic checks —
+  double-extraction, physics sanity (plausible ranges + inequality direction + piecewise
+  monotonicity + restricted-AST expr), header inheritance, footnote binding (noted cell
+  without a bound condition = auto-reject), and "---" → not_offered. Auto-accept policy
+  (confidence ≥ 0.90 AND agreement AND battery pass) implemented and tested against every
+  adversarial trap from the plan. This is pure code, no LLM — fully verified offline.
+- **Provider + cassette harness** (`provider.py` / `cassette.py`): Anthropic behind a
+  single abstraction (SDK imported lazily, live only), record/replay cassettes keyed by
+  sha256(model, system, messages, schema), CI replay-only and **fails on cache miss**.
+  A committed cassette fixture proves replay; live mode records. Token usage logged.
+- **DEFERRED (need live Anthropic API + the deferred Phase-1 xlsx ingestion)**:
+  4.2 Excel mapping inference, 4.3 net-name semantics, 4.4 two-pass rule-sheet extraction
+  + review table, and the ground-truth `clean.xlsx`/`adversarial.xlsx` eval sheets. The
+  deterministic battery that gates all of these IS built and tested; wiring it to real
+  LLM calls needs an API key (set `ANTHROPIC_API_KEY` + `PKGTK_LLM_LIVE=1` to record
+  cassettes) and the xlsx layer. Flagged as the Phase-4 gap. The cut-line's protected
+  items (battery, cassette replay CI) are done.
