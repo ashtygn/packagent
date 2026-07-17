@@ -1,0 +1,13 @@
+{
+  "design": "domain_crossing",
+  "rev": "A",
+  "nodes": [
+    { "id": "net_VDD", "kind": "substrate_net", "name": "VDD", "role": "pwr" },
+    { "id": "A1", "kind": "ball", "name": "VDD", "grid": { "row": "A", "col": 1 }, "role": "pwr", "domain": "VDD_CORE" },
+    { "id": "A2", "kind": "ball", "name": "VDD", "grid": { "row": "A", "col": 2 }, "role": "pwr", "domain": "VDD_IO" }
+  ],
+  "edges": [
+    { "source": "net_VDD", "target": "A1" },
+    { "source": "net_VDD", "target": "A2" }
+  ]
+}

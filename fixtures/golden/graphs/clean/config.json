@@ -1,0 +1,4 @@
+{
+  "grounds": { "UCIE_M0": { "min_gnd": 2 } },
+  "adjacency_required": true
+}

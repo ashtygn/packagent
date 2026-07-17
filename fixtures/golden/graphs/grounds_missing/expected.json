@@ -1,0 +1,10 @@
+[
+  {
+    "rule_id": "grounds.missing",
+    "severity": "hard",
+    "location": { "kind": "logical", "net": "UCIE_M0" },
+    "measured": "1",
+    "required": "2",
+    "check_version": "0.1.0"
+  }
+]

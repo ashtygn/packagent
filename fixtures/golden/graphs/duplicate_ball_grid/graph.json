@@ -1,0 +1,9 @@
+{
+  "design": "duplicate_grid",
+  "rev": "A",
+  "nodes": [
+    { "id": "A1a", "kind": "ball", "name": "NC1", "grid": { "row": "A", "col": 1 }, "role": "nc" },
+    { "id": "A1b", "kind": "ball", "name": "NC2", "grid": { "row": "A", "col": 1 }, "role": "nc" }
+  ],
+  "edges": []
+}

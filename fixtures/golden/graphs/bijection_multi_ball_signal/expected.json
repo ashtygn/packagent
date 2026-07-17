@@ -1,0 +1,10 @@
+[
+  {
+    "rule_id": "bijection.multi_ball_signal",
+    "severity": "hard",
+    "location": { "kind": "logical", "net": "S" },
+    "measured": "2",
+    "required": "1",
+    "check_version": "0.1.0"
+  }
+]

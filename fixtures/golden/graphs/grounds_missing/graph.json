@@ -1,0 +1,14 @@
+{
+  "design": "grounds_missing",
+  "rev": "A",
+  "nodes": [
+    { "id": "net_A", "kind": "substrate_net", "name": "A", "role": "signal", "interface": "UCIE_M0" },
+    { "id": "net_G", "kind": "substrate_net", "name": "G", "role": "gnd", "interface": "UCIE_M0" },
+    { "id": "A1", "kind": "ball", "name": "A", "grid": { "row": "A", "col": 1 }, "role": "signal", "interface": "UCIE_M0" },
+    { "id": "B1", "kind": "ball", "name": "G", "grid": { "row": "B", "col": 1 }, "role": "gnd", "interface": "UCIE_M0" }
+  ],
+  "edges": [
+    { "source": "net_A", "target": "A1" },
+    { "source": "net_G", "target": "B1" }
+  ]
+}

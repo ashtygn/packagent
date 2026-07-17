@@ -1,0 +1,14 @@
+{
+  "design": "matchgroup_domain_split",
+  "rev": "A",
+  "nodes": [
+    { "id": "net_A", "kind": "substrate_net", "name": "A", "role": "signal", "match_group": "MG0", "domain": "VDD_CORE" },
+    { "id": "net_B", "kind": "substrate_net", "name": "B", "role": "signal", "match_group": "MG0", "domain": "VDD_IO" },
+    { "id": "A1", "kind": "ball", "name": "A", "grid": { "row": "A", "col": 1 }, "role": "signal" },
+    { "id": "A2", "kind": "ball", "name": "B", "grid": { "row": "A", "col": 2 }, "role": "signal" }
+  ],
+  "edges": [
+    { "source": "net_A", "target": "A1" },
+    { "source": "net_B", "target": "A2" }
+  ]
+}

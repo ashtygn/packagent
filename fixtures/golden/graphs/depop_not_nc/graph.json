@@ -1,0 +1,17 @@
+{
+  "design": "depop_not_nc",
+  "rev": "A",
+  "nodes": [
+    { "id": "net_A1", "kind": "substrate_net", "name": "S_A1", "role": "signal" },
+    { "id": "net_B2", "kind": "substrate_net", "name": "S_B2", "role": "signal" },
+    { "id": "A1", "kind": "ball", "name": "S_A1", "grid": { "row": "A", "col": 1 }, "role": "signal" },
+    { "id": "A4", "kind": "ball", "name": "NC", "grid": { "row": "A", "col": 4 }, "role": "nc" },
+    { "id": "D1", "kind": "ball", "name": "NC", "grid": { "row": "D", "col": 1 }, "role": "nc" },
+    { "id": "D4", "kind": "ball", "name": "NC", "grid": { "row": "D", "col": 4 }, "role": "nc" },
+    { "id": "B2", "kind": "ball", "name": "S_B2", "grid": { "row": "B", "col": 2 }, "role": "signal" }
+  ],
+  "edges": [
+    { "source": "net_A1", "target": "A1" },
+    { "source": "net_B2", "target": "B2" }
+  ]
+}
