@@ -1,0 +1,10 @@
+[
+  {
+    "rule_id": "bijection.multi_assignment",
+    "severity": "hard",
+    "location": { "kind": "logical", "node_id": "A1" },
+    "measured": "2",
+    "required": "1",
+    "check_version": "0.1.0"
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "rule_id": "matchgroup.domain_split",
+    "severity": "hard",
+    "location": { "kind": "logical", "net": "MG0" },
+    "measured": "VDD_CORE,VDD_IO",
+    "check_version": "0.1.0"
+  }
+]

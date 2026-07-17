@@ -1,0 +1,13 @@
+{
+  "design": "bij_multi_ball",
+  "rev": "A",
+  "nodes": [
+    { "id": "net_S", "kind": "substrate_net", "name": "S", "role": "signal" },
+    { "id": "A1", "kind": "ball", "name": "S", "grid": { "row": "A", "col": 1 }, "role": "signal" },
+    { "id": "A2", "kind": "ball", "name": "S", "grid": { "row": "A", "col": 2 }, "role": "signal" }
+  ],
+  "edges": [
+    { "source": "net_S", "target": "A1" },
+    { "source": "net_S", "target": "A2" }
+  ]
+}

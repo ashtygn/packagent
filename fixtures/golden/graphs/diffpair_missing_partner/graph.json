@@ -1,0 +1,11 @@
+{
+  "design": "diffpair_missing",
+  "rev": "A",
+  "nodes": [
+    { "id": "net_TXP", "kind": "substrate_net", "name": "TX_P", "role": "signal" },
+    { "id": "A1", "kind": "ball", "name": "TX_P", "grid": { "row": "A", "col": 1 }, "role": "signal" }
+  ],
+  "edges": [
+    { "source": "net_TXP", "target": "A1" }
+  ]
+}

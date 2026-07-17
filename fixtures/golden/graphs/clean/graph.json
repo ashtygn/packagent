@@ -1,0 +1,23 @@
+{
+  "design": "clean_min",
+  "rev": "A",
+  "nodes": [
+    { "id": "dp_TXP", "kind": "die_pad", "name": "TX_P" },
+    { "id": "dp_TXN", "kind": "die_pad", "name": "TX_N" },
+    { "id": "net_TXP", "kind": "substrate_net", "name": "TX_P", "role": "signal", "interface": "UCIE_M0" },
+    { "id": "net_TXN", "kind": "substrate_net", "name": "TX_N", "role": "signal", "interface": "UCIE_M0" },
+    { "id": "net_GND", "kind": "substrate_net", "name": "GND", "role": "gnd", "interface": "UCIE_M0" },
+    { "id": "A1", "kind": "ball", "name": "TX_P", "grid": { "row": "A", "col": 1 }, "role": "signal", "interface": "UCIE_M0" },
+    { "id": "A2", "kind": "ball", "name": "TX_N", "grid": { "row": "A", "col": 2 }, "role": "signal", "interface": "UCIE_M0" },
+    { "id": "B1", "kind": "ball", "name": "GND", "grid": { "row": "B", "col": 1 }, "role": "gnd", "interface": "UCIE_M0" },
+    { "id": "B2", "kind": "ball", "name": "GND", "grid": { "row": "B", "col": 2 }, "role": "gnd", "interface": "UCIE_M0" }
+  ],
+  "edges": [
+    { "source": "dp_TXP", "target": "net_TXP" },
+    { "source": "dp_TXN", "target": "net_TXN" },
+    { "source": "net_TXP", "target": "A1" },
+    { "source": "net_TXN", "target": "A2" },
+    { "source": "net_GND", "target": "B1" },
+    { "source": "net_GND", "target": "B2" }
+  ]
+}

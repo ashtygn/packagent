@@ -1,0 +1,8 @@
+{
+  "design": "floating_ball",
+  "rev": "A",
+  "nodes": [
+    { "id": "A1", "kind": "ball", "name": "ORPHAN", "grid": { "row": "A", "col": 1 }, "role": "signal" }
+  ],
+  "edges": []
+}

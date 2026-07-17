@@ -1,0 +1,13 @@
+{
+  "design": "bij_multi_assign",
+  "rev": "A",
+  "nodes": [
+    { "id": "A1", "kind": "ball", "name": "X", "grid": { "row": "A", "col": 1 }, "role": "signal" },
+    { "id": "net_X", "kind": "substrate_net", "name": "X", "role": "signal" },
+    { "id": "net_Y", "kind": "substrate_net", "name": "Y", "role": "signal" }
+  ],
+  "edges": [
+    { "source": "A1", "target": "net_X" },
+    { "source": "A1", "target": "net_Y" }
+  ]
+}
