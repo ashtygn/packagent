@@ -62,3 +62,30 @@ Decisions / flagged:
   exit gate (which is checks/diff/bench). The deterministic pipeline it would feed
   (checks) is complete and tested via JSON graphs and AIF. Phase 4's mapping-inference
   seam depends on this; flagged there too. This is the one real Phase-1 gap.
+
+## Phase 2 — package-lint geometry checker
+klayout 0.30.9 + gdstk 1.0.1 install and import cleanly on this Windows box, so the
+KLayout DRC engine is real. Done: `decks/generic-substrate-v0.yaml` (NOT-MANUFACTURING-
+VALID banner, cited public values), `docs/lint-spec.md` (normative), deck loader +
+coverage reporter, geometry engine (4 checks), lyrdb emitter + `pkgtk check` CLI,
+synthetic demo substrate (clean + dirty). Golden GDS fixtures each fire exactly their
+planted violation with hand-verified measured (12/10/30 µm); clean substrate = 0.
+Decisions / flagged:
+- **Implemented checks (4)**: trace_width_min, spacing_min,
+  degas_to_trace_clearance_min, copper_to_edge_min. **Unimplemented (surfaced by the
+  coverage reporter, never silent)**: degas_coverage_window, copper_balance_window
+  (windowed density), annular_ring_min (needs padstack table), ball_grid. Net-aware
+  spacing deferred (v0 = geometric spacing only). This matches the honest-coverage
+  doctrine and the Phase-2 cut-line.
+- **degas clearance** is always measured signal-traces↔degas voids; a deck rule's
+  `scope.layer_class` names the plane/degas context, not the trace layer.
+- **CLI runs scalar-valued rules only.** Piecewise/expression rules (e.g. the advanced
+  width table) need a design-variable (`A`) binding not available at the `pkgtk check`
+  boundary in v0; they are skipped with a printed note. Flagged for a future
+  variable-binding mechanism.
+- **lyrdb screenshot** (Exit-Gate item "out.lyrdb opens in KLayout with clickable
+  markers, screenshot committed") is DEFERRED — needs a GUI/human. The .lyrdb is
+  generated and its categories/items round-trip-verified programmatically
+  (tests/test_lyrdb.py); a real KLayout screenshot is a human task.
+- Golden GDS `measured`/`required` are hand-computed physical truths (I drew a 12-µm
+  trace); `location`/`extent` are tool-derived-then-frozen (standard snapshot).

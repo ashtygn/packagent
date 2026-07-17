@@ -89,7 +89,9 @@ def check_spacing_min(layout, layer_map, params) -> list[Violation]:
 def check_degas_clearance_min(layout, layer_map, params) -> list[Violation]:
     dbu = layout.dbu
     c_min = params["value_um"]
-    traces = _region(layout, layer_map, params.get("layer_class", "signal"))
+    # Clearance is always measured between the signal routing layer and degas voids;
+    # the deck rule's scope.layer_class names the plane/degas context, not the traces.
+    traces = _region(layout, layer_map, "signal")
     degas = _region(layout, layer_map, "degas")
     ep = traces.separation_check(degas, int(round(c_min / dbu)))
     return _edge_pair_violations(ep, dbu, params["rule_id"], "degas", c_min)

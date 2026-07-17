@@ -1,0 +1,11 @@
+meta:
+  name: lint-fixture-deck
+rules:
+  - id: W.SIGNAL
+    source: {doc: "test"}
+    scope: {layer_class: signal}
+    parameter: trace_width_min
+    value: {kind: scalar, number: 25.0, units: um}
+    severity: hard
+    executability: dimensional
+    routing: external

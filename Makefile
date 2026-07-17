@@ -11,3 +11,4 @@ test:
 
 bench:
 	python -m benchmarks.run
+	python -m benchmarks.lint_run
