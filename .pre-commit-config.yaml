@@ -5,4 +5,5 @@ repos:
         name: golden-fixture guard (fixtures/golden/ is human-authored, read-only)
         entry: python scripts/golden_guard.py
         language: system
-        files: ^fixtures/golden/
+        always_run: true
+        pass_filenames: false
