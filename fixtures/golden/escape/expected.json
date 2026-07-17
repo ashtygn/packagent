@@ -1,0 +1,10 @@
+{
+  "geometry": { "pitch_um": 800, "land_dia_um": 450, "line_um": 20, "space_um": 20,
+                "routing_layers": 2, "channels": 10 },
+  "n_tracks": 8,
+  "capacity": 160,
+  "cases": {
+    "feasible":   { "demand": 120, "utilization": 0.75, "feasible": true },
+    "infeasible": { "demand": 200, "utilization": 1.25, "feasible": false }
+  }
+}

@@ -111,3 +111,22 @@ model librarian. Decisions / flagged:
   gap. Any future COM output must carry `UNVALIDATED_AGAINST_MATLAB_REFERENCE`.
 - **Librarian** uses stdlib sqlite3 + a numbered migration + jinja2 chase template; full
   state machine + rejected-intake-holds-at-received verified.
+
+## Phase 5 — Wow tier (PDN / escape / template)
+Done: `docs/pdn-spec.md` + `escape-spec.md` (normative), cavity-model PDN engine,
+escape oracle, template checker. All pure numpy/scipy. Physics is real:
+- **PDN**: analytic resonances match hand-computed golden EXACTLY (f₁₀=1.8737,
+  f₀₁=2.4983, f₁₁=3.1228 GHz); simulated |Z| peaks within 1%; low-freq |Z|=2995 Ω vs
+  1/(ωC)=2996 Ω (0.02%); M=N=30 over 1000 pts in 0.011 s; decap drops low-freq |Z| >10×.
+  Conductor/skin loss omitted (documented) — affects peak Q not location.
+- **Escape**: n_tracks and capacity reproduce the hand-counted golden exactly (8 tracks,
+  160 capacity); feasible/infeasible verdicts with utilization %. Line/space pulled from
+  a Rule-IR deck (not hardcoded). v2 max-flow cited, not implemented (v0 scope).
+- **Template**: role-swap caught at the right position; conforming map clean; unknown
+  positions flagged not errored. FLAGGED: the encoded template is an illustrative demo
+  map, NOT a spec-exact UCIe/JEDEC map (spec access friction); swap in a real map from
+  UCIe/JEDEC public docs when available. Anchor-offset alignment simplified to identity
+  in v0.
+- Phase gating note: Phase 5 was built before Phase 4's LLM core because Phase 4 is
+  input-blocked (no API key, deferred xlsx) while Phase 5's entry gate (Phase-1 checks +
+  Phase-2 deck) is green. Flagged deviation.

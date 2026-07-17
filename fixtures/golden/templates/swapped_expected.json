@@ -1,0 +1,10 @@
+[
+  {
+    "rule_id": "template.role_mismatch",
+    "severity": "hard",
+    "location": { "kind": "logical", "net": "A3" },
+    "measured": "signal",
+    "required": "gnd",
+    "check_version": "0.1.0"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "cavity": {
+    "a_m": 0.040,
+    "b_m": 0.030,
+    "d_m": 0.0008,
+    "epsilon_r": 4.0,
+    "tan_delta": 0.02
+  },
+  "constants": { "c_m_per_s": 299792458.0, "eps0": 8.854e-12, "mu0": 1.2566370614e-06 },
+  "capacitance_F": 5.3126e-11,
+  "z_at_1MHz_ohm": 2996.0,
+  "resonances_hz": {
+    "1_0": 1.8737e9,
+    "0_1": 2.4983e9,
+    "1_1": 3.1228e9
+  },
+  "tolerances": { "resonance_rel": 0.01, "lowfreq_rel": 0.02 }
+}
