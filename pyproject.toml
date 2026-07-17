@@ -10,6 +10,16 @@ requires-python = ">=3.11"
 dependencies = [
     "pydantic>=2",
     "jsonschema",
+    "pyyaml",
+    "rich",
+    "typer",
+    "numpy",
+    "scipy",
+    "networkx",
+    "pandas",
+    "openpyxl",
+    "matplotlib",
+    "jinja2",
 ]
 
 [project.optional-dependencies]
@@ -18,6 +28,21 @@ dev = [
     "ruff",
     "pre-commit",
 ]
+# Heavy / platform-specific extras kept out of the core install so `make ci`
+# works everywhere. Installed per-phase where available.
+geometry = [
+    "gdstk",
+    "klayout",
+]
+si = [
+    "scikit-rf",
+]
+llm = [
+    "anthropic",
+]
+
+[project.scripts]
+pkgtk = "pkgtk.cli.main:app"
 
 [tool.setuptools.packages.find]
 where = ["src"]

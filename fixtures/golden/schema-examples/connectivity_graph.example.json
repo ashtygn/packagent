@@ -1,0 +1,21 @@
+{
+  "design": "example_pkg",
+  "rev": "A",
+  "source_files": ["minimal.aif", "sheetA.xlsx"],
+  "units": "um",
+  "nodes": [
+    { "id": "dp_TX_P", "kind": "die_pad", "name": "TX_P", "xy": [0.0, 0.0], "diff_partner": "dp_TX_N", "interface": "UCIE_M0", "role": "signal" },
+    { "id": "dp_TX_N", "kind": "die_pad", "name": "TX_N", "xy": [50.0, 0.0], "diff_partner": "dp_TX_P", "interface": "UCIE_M0", "role": "signal" },
+    { "id": "net_TX_P", "kind": "substrate_net", "name": "TX_P", "domain": "VDD_IO", "interface": "UCIE_M0", "role": "signal" },
+    { "id": "net_TX_N", "kind": "substrate_net", "name": "TX_N", "domain": "VDD_IO", "interface": "UCIE_M0", "role": "signal" },
+    { "id": "ball_A1", "kind": "ball", "name": "TX_P", "grid": { "row": "A", "col": 1 }, "xy": [0.0, 0.0], "diff_partner": "ball_A2", "role": "signal" },
+    { "id": "ball_A2", "kind": "ball", "name": "TX_N", "grid": { "row": "A", "col": 2 }, "xy": [800.0, 0.0], "diff_partner": "ball_A1", "role": "signal" },
+    { "id": "ball_B1", "kind": "ball", "name": "GND", "grid": { "row": "B", "col": 1 }, "xy": [0.0, 800.0], "role": "gnd" }
+  ],
+  "edges": [
+    { "source": "dp_TX_P", "target": "net_TX_P", "kind": "die_pad__substrate_net" },
+    { "source": "dp_TX_N", "target": "net_TX_N", "kind": "die_pad__substrate_net" },
+    { "source": "net_TX_P", "target": "ball_A1", "kind": "substrate_net__ball" },
+    { "source": "net_TX_N", "target": "ball_A2", "kind": "substrate_net__ball" }
+  ]
+}

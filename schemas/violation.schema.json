@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pkgtk.dev/schemas/violation/0.1.0",
+  "title": "Violation",
+  "description": "One check result: a single detected violation of a rule, with enough measured/required/location detail to reproduce and click-to-zoom. Emitted by every verifier and lint check; the universal output currency of the toolkit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rule_id", "severity", "location", "check_version"],
+  "properties": {
+    "rule_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the rule (or check) that was violated. For connectivity checks with no deck rule, the check name (e.g. 'bijection.multi_assignment')."
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["hard", "preferred", "advisory"],
+      "description": "Severity inherited from the rule. 'hard' violations drive nonzero CLI exit codes."
+    },
+    "location": {
+      "description": "Where the violation is, physically (layer + coordinates) or logically (node/net).",
+      "oneOf": [
+        { "$ref": "#/$defs/physicalLocation" },
+        { "$ref": "#/$defs/logicalLocation" }
+      ]
+    },
+    "measured": {
+      "$ref": "#/$defs/measurement",
+      "description": "The value actually observed (e.g. measured trace width). Omitted for non-metric violations such as a role swap."
+    },
+    "required": {
+      "$ref": "#/$defs/measurement",
+      "description": "The value the rule requires (the threshold). Omitted for non-metric violations."
+    },
+    "delta": {
+      "type": "number",
+      "description": "Signed shortfall/excess (measured - required) in the measurement units, when both are numeric."
+    },
+    "citation": {
+      "$ref": "#/$defs/citation",
+      "description": "Anchor back to the rule's source document, so a reviewer can find the governing text."
+    },
+    "fix_hint": {
+      "type": "string",
+      "description": "Optional free-text remediation suggestion. Advisory only; never auto-applied."
+    },
+    "check_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Semantic version of the check implementation that produced this violation, for reproducibility."
+    }
+  },
+  "$defs": {
+    "physicalLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "x", "y"],
+      "properties": {
+        "kind": { "const": "physical", "description": "Discriminator: a geometric location." },
+        "layer": { "type": "string", "description": "Layer name the violation is on." },
+        "x": { "type": "number", "description": "X coordinate (in the emitting tool's output units, conventionally um)." },
+        "y": { "type": "number", "description": "Y coordinate." },
+        "extent": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Optional bounding box of the violating geometry, anchored at (x, y).",
+          "properties": {
+            "w": { "type": "number", "description": "Width of the bounding box." },
+            "h": { "type": "number", "description": "Height of the bounding box." }
+          }
+        }
+      }
+    },
+    "logicalLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "logical", "description": "Discriminator: a connectivity location." },
+        "node_id": { "type": "string", "description": "Connectivity-graph node id involved." },
+        "net": { "type": "string", "description": "Net name involved." }
+      }
+    },
+    "measurement": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value"],
+          "properties": {
+            "value": { "type": "number", "description": "Numeric magnitude." },
+            "units": { "type": "string", "description": "Units of the magnitude." }
+          }
+        },
+        {
+          "type": "string",
+          "description": "A non-numeric measured/required value (e.g. an expected vs actual role like 'gnd')."
+        }
+      ]
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "doc": { "type": "string", "description": "Source document name." },
+        "revision": { "type": "string", "description": "Source document revision." },
+        "page": { "type": ["integer", "string"], "description": "Page anchor." },
+        "table": { "type": ["integer", "string"], "description": "Table anchor." },
+        "row": { "type": ["integer", "string"], "description": "Row anchor." },
+        "sheet": { "type": "string", "description": "Spreadsheet sheet name, for rule-sheet-derived rules." },
+        "cell": { "type": "string", "description": "Spreadsheet cell reference (e.g. 'C14')." },
+        "note": { "type": "string", "description": "Free-text note or footnote reference." }
+      }
+    }
+  }
+}

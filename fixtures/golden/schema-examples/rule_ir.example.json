@@ -1,0 +1,36 @@
+{
+  "id": "SUB.TRACE.WIDTH.MIN.M1",
+  "source": {
+    "doc": "generic-substrate-v0",
+    "revision": "0.1",
+    "page": 12,
+    "table": "4-2",
+    "row": 3
+  },
+  "scope": {
+    "layer_class": "signal",
+    "region": "core"
+  },
+  "parameter": "trace_width_min",
+  "value": {
+    "kind": "piecewise",
+    "variable": "A",
+    "units": "um",
+    "pieces": [
+      { "when": "A <= 10", "value": 15.0 },
+      { "when": "10 < A <= 14", "value": 20.0 },
+      { "when": "A > 14", "value": 25.0 }
+    ]
+  },
+  "tier": "advanced",
+  "severity": "hard",
+  "conditions": [
+    { "param": "layer_count", "op": "ge", "value": 4 }
+  ],
+  "executability": "dimensional",
+  "routing": "external",
+  "lifecycle": {
+    "effective_rev": "0.1",
+    "deprecated": false
+  }
+}

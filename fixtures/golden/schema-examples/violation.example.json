@@ -1,0 +1,22 @@
+{
+  "rule_id": "SUB.TRACE.WIDTH.MIN.M1",
+  "severity": "hard",
+  "location": {
+    "kind": "physical",
+    "layer": "M1",
+    "x": 1234.5,
+    "y": 678.9,
+    "extent": { "w": 12.0, "h": 3.0 }
+  },
+  "measured": { "value": 12.0, "units": "um" },
+  "required": { "value": 20.0, "units": "um" },
+  "delta": -8.0,
+  "citation": {
+    "doc": "generic-substrate-v0",
+    "revision": "0.1",
+    "table": "4-2",
+    "row": 3
+  },
+  "fix_hint": "Widen the trace to at least 20 um in the core region for >=4 layer builds.",
+  "check_version": "0.1.0"
+}

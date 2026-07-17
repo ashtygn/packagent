@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pkgtk.dev/schemas/rule_ir/0.1.0",
+  "title": "Rule IR",
+  "description": "A single design/manufacturing rule in intermediate representation. One deck is a list of these. Authored by humans or extracted (with review) from vendor rule sheets; consumed by the package-lint engine and the escape oracle.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "source", "parameter", "value", "severity", "executability", "routing"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable unique identifier for this rule within a deck (e.g. 'SUB.TRACE.WIDTH.MIN.M1')."
+    },
+    "source": {
+      "$ref": "#/$defs/source",
+      "description": "Provenance anchor: where in the originating document this rule came from."
+    },
+    "scope": {
+      "$ref": "#/$defs/scope",
+      "description": "Optional narrowing of where the rule applies (layer class, net class, region, component class). Absent fields mean 'applies everywhere'."
+    },
+    "parameter": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Controlled-vocabulary name of the quantity constrained. Known values map to implemented checks; unknown values are NOT schema errors — they surface as 'coverage: unimplemented' at run time (honest-coverage doctrine). Conventional vocabulary: trace_width_min, spacing_min, degas_to_trace_clearance_min, degas_coverage_window, copper_balance_window, annular_ring_min, ball_grid, copper_to_edge_min."
+    },
+    "value": {
+      "description": "The constraint value: a scalar with units, a restricted-AST expression, or a piecewise table keyed by a design-variable condition.",
+      "oneOf": [
+        { "$ref": "#/$defs/scalarValue" },
+        { "$ref": "#/$defs/expressionValue" },
+        { "$ref": "#/$defs/piecewiseValue" }
+      ]
+    },
+    "tier": {
+      "type": "string",
+      "description": "Capability tier the rule belongs to (conventionally 'normal' or 'advanced', but vendor-specific tier names are allowed). Absent means the rule applies to all tiers."
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["hard", "preferred", "advisory"],
+      "description": "Enforcement weight. 'hard' gates tape-out and drives nonzero CLI exit codes; 'preferred' is a strong recommendation; 'advisory' is informational."
+    },
+    "conditions": {
+      "type": "array",
+      "description": "Zero or more predicates that must hold for the rule to apply. A structured condition is machine-evaluable; a free-text condition cannot be evaluated and therefore forces executability to 'manual'.",
+      "items": { "$ref": "#/$defs/condition" }
+    },
+    "executability": {
+      "type": "string",
+      "enum": ["dimensional", "density", "structural", "enumerated", "manual"],
+      "description": "How the rule is (or is not) mechanically checkable, routing it to a class of check implementation. 'manual' means no automatic check exists and a human must verify."
+    },
+    "routing": {
+      "type": "string",
+      "enum": ["cm", "dfx", "external", "checklist"],
+      "description": "Which subsystem consumes the rule: 'cm' (constraint manager / connectivity), 'dfx' (design-for-x geometry), 'external' (the geometry lint engine), or 'checklist' (human checklist item)."
+    },
+    "lifecycle": {
+      "$ref": "#/$defs/lifecycle",
+      "description": "Revision lifecycle: when the rule became effective and whether it is deprecated."
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doc"],
+      "properties": {
+        "doc": { "type": "string", "minLength": 1, "description": "Document name or identifier the rule was taken from." },
+        "revision": { "type": "string", "description": "Document revision/version string." },
+        "page": { "type": ["integer", "string"], "description": "Page number or label within the document." },
+        "table": { "type": ["integer", "string"], "description": "Table identifier within the document." },
+        "row": { "type": ["integer", "string"], "description": "Row identifier within the referenced table." }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "layer_class": { "type": "string", "description": "Layer class the rule applies to (e.g. 'signal', 'plane', 'buildup')." },
+        "net_class": { "type": "string", "description": "Net class the rule applies to (e.g. 'high_speed', 'power')." },
+        "region": { "type": "string", "description": "Named physical region the rule is confined to." },
+        "component_class": { "type": "string", "description": "Component class the rule applies to (e.g. 'bga', 'die')." }
+      }
+    },
+    "scalarValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "number", "units"],
+      "properties": {
+        "kind": { "const": "scalar", "description": "Discriminator: a single numeric value with units." },
+        "number": { "type": "number", "description": "The numeric magnitude." },
+        "units": { "type": "string", "minLength": 1, "description": "Physical units of the magnitude (e.g. 'um', 'mm', 'percent')." }
+      }
+    },
+    "expressionValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "expr"],
+      "properties": {
+        "kind": { "const": "expression", "description": "Discriminator: a value computed from a design variable via a restricted arithmetic expression." },
+        "expr": { "type": "string", "minLength": 1, "description": "Restricted-AST arithmetic expression over one design variable (e.g. 'A * 0.10'). Must parse under the whitelist parser in pkgtk.schemas.expr — never eval'd." },
+        "units": { "type": "string", "description": "Units of the computed result." },
+        "variable": { "type": "string", "description": "Name of the design variable the expression is evaluated over (default 'A')." }
+      }
+    },
+    "piecewiseValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "pieces"],
+      "properties": {
+        "kind": { "const": "piecewise", "description": "Discriminator: a table of (condition -> value) brackets over a design variable." },
+        "variable": { "type": "string", "description": "Name of the design variable the bracket conditions are evaluated over (default 'A')." },
+        "units": { "type": "string", "description": "Units shared by every bracket value." },
+        "pieces": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Ordered brackets. The first whose 'when' predicate is true supplies the value.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["when", "value"],
+            "properties": {
+              "when": { "type": "string", "minLength": 1, "description": "Restricted-AST comparison predicate over the design variable (e.g. '10 < A <= 14')." },
+              "value": { "type": "number", "description": "Value that applies when the predicate holds." }
+            }
+          }
+        }
+      }
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["param", "op", "value"],
+          "properties": {
+            "param": { "type": "string", "minLength": 1, "description": "Name of the scoping attribute compared (e.g. 'layer_count', 'has_conductive_adhesive')." },
+            "op": { "type": "string", "enum": ["lt", "le", "gt", "ge", "eq", "ne", "in", "not_in"], "description": "Comparison operator." },
+            "value": { "description": "Right-hand comparison operand: a number, string, boolean, or array (for in / not_in)." }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text"],
+          "properties": {
+            "text": { "type": "string", "minLength": 1, "description": "Free-text condition that cannot be evaluated mechanically. Its presence forces the rule's executability to 'manual'." }
+          }
+        }
+      ]
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "effective_rev": { "type": "string", "description": "Document revision at which this rule became effective." },
+        "deprecated": { "type": "boolean", "default": false, "description": "Whether the rule is deprecated and should no longer gate new designs." },
+        "deprecated_rev": { "type": "string", "description": "Revision at which the rule was deprecated, if applicable." }
+      }
+    }
+  }
+}

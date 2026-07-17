@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pkgtk.dev/schemas/connectivity_graph/0.1.0",
+  "title": "Connectivity Graph",
+  "description": "Tiered netlist-stage connectivity of a package: die pads, bumps, substrate nets, balls, and board pins, plus the typed edges connecting adjacent tiers. Produced by the ingestion parsers (AIF, Excel/CSV) and consumed by the verifier checks and ECO diff.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["design", "rev", "nodes", "edges"],
+  "properties": {
+    "design": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Design name this graph represents."
+    },
+    "rev": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Revision identifier of the design snapshot."
+    },
+    "source_files": {
+      "type": "array",
+      "description": "Provenance: the input files this graph was ingested from.",
+      "items": { "type": "string" }
+    },
+    "units": {
+      "type": "string",
+      "default": "um",
+      "description": "Length units for all node xy coordinates in this graph."
+    },
+    "nodes": {
+      "type": "array",
+      "description": "All connectivity nodes across every tier. Node ids must be unique within the graph.",
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Typed connections between nodes on adjacent tiers.",
+      "items": { "$ref": "#/$defs/edge" }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "description": "Graph-unique identifier for the node." },
+        "kind": {
+          "type": "string",
+          "enum": ["die_pad", "bump", "substrate_net", "ball", "board_pin"],
+          "description": "Which connectivity tier the node lives on."
+        },
+        "name": { "type": "string", "description": "Human-facing name (e.g. net name, pad name, ball designator)." },
+        "xy": {
+          "type": "array",
+          "description": "Physical position [x, y] in graph units. Optional (logical nets may have none).",
+          "items": { "type": "number" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "grid": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Grid coordinate for balls: row designator plus column index.",
+          "required": ["row", "col"],
+          "properties": {
+            "row": { "type": "string", "minLength": 1, "description": "Row designator (e.g. 'A', 'AB'); alphabet may skip JEDEC letters I,O,Q,S,X,Z per the ingestion mapping." },
+            "col": { "type": "integer", "minimum": 1, "description": "1-based column index." }
+          }
+        },
+        "diff_partner": { "type": "string", "description": "Node id (or net name) of this node's differential partner, if any." },
+        "match_group": { "type": "string", "description": "Length/timing match-group identifier this node belongs to." },
+        "domain": { "type": "string", "description": "Power domain this node belongs to (e.g. 'VDD_CORE')." },
+        "interface": { "type": "string", "description": "Named interface region (e.g. 'UCIE_M0', 'HBM_CH2')." },
+        "role": {
+          "type": "string",
+          "enum": ["signal", "gnd", "pwr", "nc"],
+          "description": "Electrical role of the node. 'nc' = no-connect. Only gnd/pwr nets may legitimately fan out to many balls."
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "target"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1, "description": "Node id of the edge's source (higher tier, e.g. die_pad)." },
+        "target": { "type": "string", "minLength": 1, "description": "Node id of the edge's target (adjacent lower tier, e.g. bump)." },
+        "kind": {
+          "type": "string",
+          "description": "Optional edge type; conventionally the tier pair it bridges (e.g. 'die_pad__bump', 'bump__substrate_net', 'substrate_net__ball', 'ball__board_pin')."
+        }
+      }
+    }
+  }
+}
