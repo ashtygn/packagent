@@ -1,0 +1,20 @@
+{
+  "design": "eco_demo",
+  "rev": "A",
+  "nodes": [
+    { "id": "net_TXP", "kind": "substrate_net", "name": "TX_P", "role": "signal", "interface": "UCIE_M0" },
+    { "id": "net_TXN", "kind": "substrate_net", "name": "TX_N", "role": "signal", "interface": "UCIE_M0" },
+    { "id": "net_VDD", "kind": "substrate_net", "name": "VDD", "role": "pwr", "interface": "UCIE_M0", "domain": "VDD_IO" },
+    { "id": "net_SPARE", "kind": "substrate_net", "name": "SPARE", "role": "signal", "interface": "HBM_CH2" },
+    { "id": "A1", "kind": "ball", "name": "TX_P", "grid": { "row": "A", "col": 1 }, "role": "signal" },
+    { "id": "A2", "kind": "ball", "name": "TX_N", "grid": { "row": "A", "col": 2 }, "role": "signal" },
+    { "id": "A3", "kind": "ball", "name": "VDD", "grid": { "row": "A", "col": 3 }, "role": "pwr" },
+    { "id": "B1", "kind": "ball", "name": "SPARE", "grid": { "row": "B", "col": 1 }, "role": "signal" }
+  ],
+  "edges": [
+    { "source": "net_TXP", "target": "A1" },
+    { "source": "net_TXN", "target": "A2" },
+    { "source": "net_VDD", "target": "A3" },
+    { "source": "net_SPARE", "target": "B1" }
+  ]
+}

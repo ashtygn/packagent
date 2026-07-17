@@ -1,0 +1,17 @@
+{
+  "design": "eco_demo",
+  "rev": "B",
+  "nodes": [
+    { "id": "net_TXP", "kind": "substrate_net", "name": "TX_P", "role": "signal", "interface": "UCIE_M0" },
+    { "id": "net_VDD", "kind": "substrate_net", "name": "VDD", "role": "pwr", "interface": "UCIE_M0", "domain": "VDD_CORE" },
+    { "id": "net_NEW", "kind": "substrate_net", "name": "NEW", "role": "signal", "interface": "HBM_CH2" },
+    { "id": "A1", "kind": "ball", "name": "TX_P", "grid": { "row": "A", "col": 1 }, "role": "signal" },
+    { "id": "A4", "kind": "ball", "name": "VDD", "grid": { "row": "A", "col": 4 }, "role": "pwr" },
+    { "id": "B1", "kind": "ball", "name": "NEW", "grid": { "row": "B", "col": 1 }, "role": "signal" }
+  ],
+  "edges": [
+    { "source": "net_TXP", "target": "A1" },
+    { "source": "net_VDD", "target": "A4" },
+    { "source": "net_NEW", "target": "B1" }
+  ]
+}

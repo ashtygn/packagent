@@ -1,0 +1,26 @@
+{
+  "design": "eco_demo",
+  "rev_a": "A",
+  "rev_b": "B",
+  "changes": [
+    { "class": "added", "net": "NEW", "interface": "HBM_CH2" },
+    { "class": "ball_repurposed", "ball": "B1", "from": "SPARE", "to": "NEW", "interface": "HBM_CH2" },
+    { "class": "domain_changed", "net": "VDD", "from": "VDD_IO", "to": "VDD_CORE", "interface": "UCIE_M0" },
+    { "class": "net_moved", "net": "VDD", "from": "A3", "to": "A4", "interface": "UCIE_M0" },
+    { "class": "pair_broken", "net": "TX_P", "partner": "TX_N", "interface": "UCIE_M0" },
+    { "class": "removed", "net": "SPARE", "interface": "HBM_CH2" },
+    { "class": "removed", "net": "TX_N", "interface": "UCIE_M0" }
+  ],
+  "summary": {
+    "added": 1,
+    "ball_repurposed": 1,
+    "domain_changed": 1,
+    "net_moved": 1,
+    "pair_broken": 1,
+    "removed": 2
+  },
+  "by_interface": {
+    "HBM_CH2": { "added": 1, "ball_repurposed": 1, "removed": 1 },
+    "UCIE_M0": { "domain_changed": 1, "net_moved": 1, "pair_broken": 1, "removed": 1 }
+  }
+}
