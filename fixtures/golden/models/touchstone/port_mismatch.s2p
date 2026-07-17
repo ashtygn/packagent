@@ -1,0 +1,5 @@
+! known-bad: extension claims 2 ports (.s2p -> expects 4 S-params/row) but each data
+! row carries only one S-parameter (a 1-port's worth). Must reject: port_count_mismatch.
+# GHZ S RI R 50
+1.0  0.2 0.0
+2.0  0.2 0.0

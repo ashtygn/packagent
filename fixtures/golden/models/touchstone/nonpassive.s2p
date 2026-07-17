@@ -1,0 +1,5 @@
+! non-passive 2-port (hand-authored known-bad). Transmission scaled into gain.
+! S-matrix [[0.1, 1.1],[1.1, 0.1]] -> singular values {1.2, 1.0}; sigma_max = 1.2 > 1.05.
+# GHZ S RI R 50
+1.0  0.1 0.0  1.1 0.0  1.1 0.0  0.1 0.0
+2.0  0.1 0.0  1.1 0.0  1.1 0.0  0.1 0.0

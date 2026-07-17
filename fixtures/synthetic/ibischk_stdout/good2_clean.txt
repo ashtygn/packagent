@@ -1,0 +1,5 @@
+ibischk6 - IBIS file syntax checker, Version 7.1.0
+Reading file 'good2.ibs' ...
+
+File 'good2.ibs' - Checked.
+    0 errors, 0 warnings, 0 notes

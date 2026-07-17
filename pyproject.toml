@@ -47,6 +47,9 @@ pkgtk = "pkgtk.cli.main:app"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"pkgtk.models" = ["migrations/*.sql", "templates/*.j2"]
+
 [tool.ruff]
 target-version = "py311"
 src = ["src", "tests"]

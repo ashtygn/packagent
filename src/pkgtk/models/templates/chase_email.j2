@@ -1,0 +1,18 @@
+Subject: Model request follow-up - {{ part }} rev {{ rev }} ({{ corner }}, {{ model_type }})
+
+Hi,
+
+We are still waiting on the {{ model_type }} model for:
+
+  Part:    {{ part }}
+  Rev:     {{ rev }}
+  Corner:  {{ corner }}
+  Status:  {{ state }}
+{% if note %}  Note:    {{ note }}
+{% endif %}
+Could you confirm the delivery timeline? Once received we run an automated intake
+gate (IBIS golden-parser and/or Touchstone passivity/reciprocity checks) before the
+model is filed for use.
+
+Thanks,
+pkgtk model librarian

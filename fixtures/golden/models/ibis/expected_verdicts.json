@@ -1,0 +1,5 @@
+{
+  "good1.txt": { "errors": 0, "warnings": 1, "notes": 1, "decision": "pass-with-flags" },
+  "good2_clean.txt": { "errors": 0, "warnings": 0, "notes": 0, "decision": "pass" },
+  "truncated.txt": { "errors": 2, "warnings": 0, "notes": 0, "decision": "reject" }
+}

@@ -89,3 +89,25 @@ Decisions / flagged:
   (tests/test_lyrdb.py); a real KLayout screenshot is a human task.
 - Golden GDS `measured`/`required` are hand-computed physical truths (I drew a 12-µm
   trace); `location`/`extent` are tool-derived-then-frozen (standard snapshot).
+
+## Phase 3 — SI/PI validator stack
+Done: `docs/models-spec.md` (normative), Touchstone quality gate, IBIS gate wrapper,
+model librarian. Decisions / flagged:
+- **Touchstone gate is self-contained numpy** (own parser + passivity via per-frequency
+  max singular value + reciprocity), NOT scikit-rf. Rationale: keeps the gate in core CI
+  without a heavy platform-specific dependency; skrf can be swapped behind the same
+  interface. IEEE-370 causality is **not** implemented — emitted as
+  `causality: unassessed` (the human-decided fallback). Fixtures are hand-authored with
+  the passivity math verified by hand (σ_max: good=0.6, non-passive=1.2; port-mismatch
+  rejected pre-parse).
+- **IBIS gate** parses captured ibischk stdout (recorded mode) — CI needs no executable;
+  live run behind `PKGTK_IBISCHK`. Real vendor IBIS files (TI/ADI) were NOT downloaded
+  (network/manual); the captured-stdout fixtures are hand-authored representative
+  ibischk output. Flagged: swap in real captured output when an executable is available.
+- **COM runner (3.3) CUT** per the Phase-3 cut-line. It requires vendoring a maintained
+  Python COM port from GitHub with license/provenance (network + trust review) and the
+  instruction is to STOP rather than write COM from scratch. Not attempted offline; the
+  validator stack stands without it. `pkgtk com` is absent; flagged as the known Phase-3
+  gap. Any future COM output must carry `UNVALIDATED_AGAINST_MATLAB_REFERENCE`.
+- **Librarian** uses stdlib sqlite3 + a numbered migration + jinja2 chase template; full
+  state machine + rejected-intake-holds-at-received verified.

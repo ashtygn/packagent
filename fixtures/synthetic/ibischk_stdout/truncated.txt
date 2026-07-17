@@ -1,0 +1,8 @@
+ibischk6 - IBIS file syntax checker, Version 7.1.0
+Reading file 'truncated.ibs' ...
+
+ERROR (line 342): Unexpected end-of-file while reading [Model] 'DQ_IO' VI table.
+ERROR (line 342): Missing [End] keyword.
+
+File 'truncated.ibs' - Checked.
+    2 errors, 0 warnings, 0 notes

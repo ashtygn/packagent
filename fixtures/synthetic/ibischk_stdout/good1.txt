@@ -1,0 +1,8 @@
+ibischk6 - IBIS file syntax checker, Version 7.1.0
+Reading file 'good1.ibs' ...
+
+NOTE (line 5): Comment character is '|'.
+WARNING (line 210): [Model] 'DQ_IO' - Typ Ramp dV/dt_r is unusually fast.
+
+File 'good1.ibs' - Checked.
+    0 errors, 1 warnings, 1 notes
