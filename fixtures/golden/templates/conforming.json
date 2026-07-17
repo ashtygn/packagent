@@ -1,0 +1,13 @@
+{
+  "design": "conforming_map",
+  "rev": "A",
+  "nodes": [
+    { "id": "A1", "kind": "ball", "grid": { "row": "A", "col": 1 }, "role": "signal" },
+    { "id": "A2", "kind": "ball", "grid": { "row": "A", "col": 2 }, "role": "signal" },
+    { "id": "A3", "kind": "ball", "grid": { "row": "A", "col": 3 }, "role": "gnd" },
+    { "id": "B1", "kind": "ball", "grid": { "row": "B", "col": 1 }, "role": "pwr" },
+    { "id": "B2", "kind": "ball", "grid": { "row": "B", "col": 2 }, "role": "signal" },
+    { "id": "B3", "kind": "ball", "grid": { "row": "B", "col": 3 }, "role": "gnd" }
+  ],
+  "edges": []
+}

@@ -1,0 +1,19 @@
+meta:
+  name: escape-deck-v0
+rules:
+  - id: E.WIDTH
+    source: {doc: "escape fixture"}
+    scope: {layer_class: signal}
+    parameter: trace_width_min
+    value: {kind: scalar, number: 20.0, units: um}
+    severity: hard
+    executability: dimensional
+    routing: external
+  - id: E.SPACE
+    source: {doc: "escape fixture"}
+    scope: {layer_class: signal}
+    parameter: spacing_min
+    value: {kind: scalar, number: 20.0, units: um}
+    severity: hard
+    executability: dimensional
+    routing: external

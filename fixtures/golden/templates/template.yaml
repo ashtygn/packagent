@@ -1,0 +1,13 @@
+# Illustrative interface bump-map template (hand-authored). Roles: sig/gnd/pwr/nc.
+# NOTE: this is a simplified demo template, not a spec-exact UCIe/JEDEC map. A real
+# UCIe standard-package module map or JEDEC DDR byte-lane rule set should be encoded
+# from the spec/public papers when available (flagged in docs/PHASE-NOTES.md).
+name: demo_iface_v0
+anchor: {row: A, col: 1}
+roles:
+  A1: sig
+  A2: sig
+  A3: gnd
+  B1: pwr
+  B2: sig
+  B3: gnd
