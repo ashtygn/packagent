@@ -1,95 +1,93 @@
-# Phase 6 — Integration + Launch Artifact (8 hrs)
+# pkgtk — 100-Hour Build Plan
 
-## Goal
-One CLI, one demo command, one honest benchmark document. `pkgtk` unifies every wedge;
-`make demo` runs the whole toolkit on bundled examples from a clean clone in under five
-minutes and leaves an `artifacts/` folder a stranger can browse; the top-level README
-becomes the launch post's skeleton with the coverage table and catch rates front and
-center. In an industry allergic to demos, the benchmark table IS the launch.
+One toolkit, four wedges, open tooling only. Ball-map verification + ECO diff (Pillar 2),
+package-lint geometry checker (Pillar 1), SI/PI model validators (Pillar 3), and the
+non-neural tier-0 oracles (Pillar 4) — all on three shared schemas.
 
-## Entry Gate
-- [ ] Phases 0–5 Exit Gates all green (this phase adds no new capability — only
-      assembly; if you're tempted to sneak a feature in here, that's the buffer talking).
+## The execution model
 
-## Exit Gate (the final gate of the 100 hours)
-- [ ] Clean clone → `pip install -e .` (or pipx) → `make demo` → all artifacts
-      produced, total runtime < 5 min, zero manual steps.
-- [ ] `make bench` green: Phase-1 20/20, Phase-2 fixture suite, Phase-3 verdicts,
-      Phase-4 extraction eval, Phase-5 physics invariants — all rolled into one
-      BENCHMARKS.md.
-- [ ] Top-level README rewritten: what/why in 3 paragraphs, quickstart, the coverage
-      table, the benchmark table, the honesty section (what this does NOT do), and the
-      NOT-MANUFACTURING-VALID banner for the generic deck.
-- [ ] Screenshots/GIF checklist done (Human-only task 2).
-- [ ] Tag v0.1.0.
+Your hours go to **schemas, golden fixtures, and domain judgment**. Claude Code writes
+parsers and engines against tests you author. The safety rule is the thesis of the whole
+project:
 
-## Human-only tasks (~3 hrs)
-1. **Write the honesty section yourself** — the coverage split ("N rule parameters
-   implemented, M flagged unimplemented, K manual-checklist"), the UNVALIDATED flag on
-   COM, net-aware spacing deferred, conductor loss omitted in PDN v0. The credibility
-   of the whole artifact lives in this section; it is voice, not code.
-2. **Capture the demo media**: KLayout with clickable lyrdb markers; the ECO diff
-   report; the PDN curve vs mask PNG; the review table catching the footnote trap.
-   Terminal GIFs via vhs or asciinema — your call.
-3. **Decide the release surface** per the Hour-Zero decision: public repo now, or
-   private + a write-up you can hand to specific people. Draft the launch post
-   skeleton (the benchmark table + 3 honest paragraphs); polishing it for
-   distribution is deliberately outside the 100 hours.
+> **No agent-written component merges without a golden fixture you hand-computed.**
+> You are the oracle in your own verify-repair loop.
 
-## Research pack
-- CLI assembly: typer (or click) with subcommands already built per phase —
-  `verify, diff, check, models, com, extract, ingest, escape, template, pdn`. This
-  phase only unifies help text, exit codes, and a `--json` flag convention.
-- Packaging: pyproject entry point `pkgtk = pkgtk.cli.main:app`; pipx-installable;
-  pin klayout/gdstk/skrf versions (klayout wheels are platform-specific — note
-  supported platforms honestly in README).
-- Demo script: a Makefile `demo` target that runs each wedge against
-  `fixtures/synthetic/` + goldens and copies outputs into `artifacts/` with a
-  MANIFEST.md linking each artifact to the command that produced it.
-- BENCHMARKS.md aggregation: each phase's bench emits JSON; this phase adds the
-  roll-up renderer. Generated-file banner at top; CI fails if it's stale
-  (regenerate-and-diff check).
-- vhs (charmbracelet) for scriptable terminal GIFs if you want reproducible media.
+## Hour ledger
 
-## Claude Code prompts
+| Phase | Name | Hours | Cumulative |
+|-------|------|-------|------------|
+| 0 | Foundation (schemas + repo) | 5 | 5 |
+| 1 | Ball-map verifier + ECO diff | 20 | 25 |
+| 2 | package-lint geometry checker | 22 | 47 |
+| 3 | SI/PI validator stack | 15 | 62 |
+| 4 | LLM layer | 12 | 74 |
+| 5 | Wow tier (escape / template / PDN) | 10 | 84 |
+| 6 | Integration + launch artifact | 8 | 92 |
+| — | Buffer (you WILL spend it) | 8 | 100 |
 
-### Prompt 6.1 — CLI unification + packaging
+When a phase overruns: **cut scope, never schedule.** Every phase ends demoable.
+
+## Phase gating — hard rule
+
+You may not start phase N+1 until phase N's **Exit Gate** checklist is fully green.
+Each phase README lists its Entry Gate (what it consumes from prior phases) and Exit
+Gate (what must pass). The gates are `make ci` targets, not vibes.
+
+## Hour Zero — before Phase 0
+
+Read your employment agreement. Decide: public repo from day one, or private until
+cleared. Do all work on a personal machine. One hour, finally spent. This is the entry
+gate to Phase 0 and it is not optional.
+
+## Claude Code prompt convention
+
+Every delegated task uses this template. One prompt = one session. Paste verbatim,
+fill brackets.
+
 ```
-/goal Unify all subcommands under one typer app with consistent help, exit-code convention (0 clean / 1 violations / 2 usage / 3 internal), a global --json flag, and pipx-installable packaging with pinned deps.
-/context Phase 6. No behavior changes to any wedge — assembly only. Any inconsistency between subcommands' conventions: normalize toward the documented convention and list the changes in PR notes.
-/inputs src/pkgtk/cli/*, pyproject.toml
-/constraints Do not touch check/diff/oracle logic. Platform support statement for klayout wheels goes in README verbatim from docs/platforms.md (human-written).
-/deliverables src/pkgtk/cli/main.py, updated pyproject.toml, tests/test_cli_conventions.py (every subcommand: --help works, exit codes honored on golden inputs)
-/verify pipx install from local path works; conventions test green; make ci green.
+/goal <one-sentence outcome>
+/context <phase, what exists, which docs to read first>
+/inputs <schemas, fixtures, reference files available in-repo>
+/constraints <allowed deps; forbidden actions; style rules>
+/deliverables <exact files + tests to produce>
+/verify <exact commands that must pass before claiming done>
 ```
 
-### Prompt 6.2 — make demo
+Standing constraints that apply to EVERY session (put them in CLAUDE.md at repo root):
+
+1. Never modify anything under `fixtures/golden/**`. Those are human-authored ground
+   truth. If a fixture looks wrong, STOP and report — do not "fix" it.
+2. `make ci` (ruff + pytest) must be green before claiming done. Commit per green step.
+3. Python 3.11+. Dependencies only from the phase README's allowed list.
+4. No network calls at test time. Anything fetched from the web goes into
+   `reference/` with a source URL header.
+5. Schemas in `schemas/` are frozen per version. Needing a schema change = stop and
+   report; the human bumps the version.
+6. When uncertain between two interpretations of a spec, implement the one in
+   `docs/*-spec.md` and flag the ambiguity in the PR notes. Never guess silently.
+
+## Repo layout (created in Phase 0)
+
 ```
-/goal A `make demo` target running every wedge end-to-end on bundled fixtures from a clean clone, producing artifacts/ with MANIFEST.md (artifact → producing command → 1-line description), total < 5 min, zero prompts.
-/context Phase 6. Everything it runs already exists and is green.
-/inputs Makefile, fixtures/, src/pkgtk/
-/constraints Idempotent (rm -rf artifacts/ first); every step echoes the exact CLI command a user could copy; failure of any step fails the target loudly.
-/deliverables Makefile demo target, scripts/demo.sh, artifacts/.gitignore
-/verify Fresh clone in a temp dir: pip install -e . && make demo succeeds < 5 min; MANIFEST.md lists every artifact; make ci green.
+pkgtk/
+  CLAUDE.md                 # standing constraints above
+  Makefile                  # ci, demo, bench targets
+  schemas/                  # rule_ir, connectivity_graph, violation (JSON Schema + pydantic)
+  src/pkgtk/                # ingest/ checks/ diff/ lint/ models/ oracles/ cli/
+  fixtures/golden/          # HUMAN-AUTHORED. Agents read-only.
+  fixtures/synthetic/       # generated test data (agents may regenerate)
+  reference/                # fetched specs/docs with source URLs
+  docs/                     # per-check semantics specs, schema docs
+  benchmarks/               # seeded-defect cases + auto-generated BENCHMARKS.md
 ```
 
-### Prompt 6.3 — benchmark roll-up + README assembly
-```
-/goal Aggregate all per-phase benchmark JSON into one BENCHMARKS.md (tables: ballmap catch rates, lint fixture matrix, model-gate verdicts, extraction precision/recall, PDN invariant deltas) with a staleness CI check; assemble the top-level README from the human-written sections in docs/readme-sections/ plus the generated tables.
-/context Phase 6. The honesty section and platform statement are human-written inputs — include verbatim, never paraphrase.
-/inputs benchmarks/*.json, docs/readme-sections/
-/constraints BENCHMARKS.md and README tables are generated; CI regenerates and diffs — nonzero diff fails. Human sections byte-preserved.
-/deliverables benchmarks/rollup.py, updated README.md, CI staleness check in Makefile ci target
-/verify Staleness check trips when a benchmark JSON is edited without regeneration; README contains all human sections verbatim; make ci green.
-```
+## Doctrine (why the build is shaped this way)
 
-## Cut line
-GIF tooling automation (capture by hand), pipx polish (pip install -e . is enough).
-Never cut the honesty section, the staleness check, or the < 5 min clean-clone demo —
-those three ARE the launch artifact.
-
-## After hour 100
-Two forks, same repo either way: (a) product — design partner + the Allegro techfile
-backend inside a real licensed flow; (b) career — this repo walks into every package-
-engineering interview you'll ever take. The decision was deliberately not required
-during the build.
+- Deterministic core, LLM shell. The LLM appears only in Phase 4, only at ingestion
+  seams, always behind a human-confirm step and a paranoia battery.
+- Verification before generation. Every wedge is read-only analysis — bottom rung of
+  the trust ladder, adoptable day one.
+- Flagged gap = fine. Silent wrong = fatal. Asymmetric metrics everywhere: precision
+  gates releases; recall may lag if misses are loudly flagged.
+- The schemas are the land-grab. They ship first and they are authored by you.
