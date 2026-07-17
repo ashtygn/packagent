@@ -1,0 +1,30 @@
+# Phase-1 ball-map benchmark cases. Each seeds exactly one defect into the clean
+# synthetic design; the runner asserts the check engine catches it at the right
+# location. `exact: true` cases additionally match a full hand-authored expected
+# violation under fixtures/golden/bench/<id>.json.
+#
+# 20 cases across the 8 check families (15 distinct + 5 locality variants).
+design:
+  rows: 45
+  cols: 45
+cases:
+  - {id: bench01, mutation: multi_assignment, family: bijection, exact: true}
+  - {id: bench02, mutation: duplicate_die_pad, family: duplicate, exact: true}
+  - {id: bench03, mutation: duplicate_ball_grid, family: duplicate, exact: true}
+  - {id: bench04, mutation: nc_collision, family: floating, exact: true}
+  - {id: bench05, mutation: depop_not_nc, family: depop, exact: true}
+  - {id: bench06, mutation: multi_ball_signal, family: bijection, exact: false}
+  - {id: bench07, mutation: grounds_missing, family: grounds, exact: false}
+  - {id: bench08, mutation: diffpair_missing_partner, family: diffpair, exact: false}
+  - {id: bench09, mutation: diffpair_not_adjacent, family: diffpair, exact: false}
+  - {id: bench10, mutation: matchgroup_domain_split, family: matchgroup, exact: false}
+  - {id: bench11, mutation: matchgroup_interface_split, family: matchgroup, exact: false}
+  - {id: bench12, mutation: matchgroup_incomplete, family: matchgroup, exact: false}
+  - {id: bench13, mutation: domain_crossing, family: domain, exact: false}
+  - {id: bench14, mutation: floating_die_pad, family: floating, exact: false}
+  - {id: bench15, mutation: floating_ball_no_net, family: floating, exact: false}
+  - {id: bench16, mutation: multi_assignment_v2, family: bijection, exact: false}
+  - {id: bench17, mutation: multi_ball_signal_v2, family: bijection, exact: false}
+  - {id: bench18, mutation: diffpair_missing_partner_v2, family: diffpair, exact: false}
+  - {id: bench19, mutation: duplicate_ball_grid_v2, family: duplicate, exact: false}
+  - {id: bench20, mutation: depop_not_nc_v2, family: depop, exact: false}

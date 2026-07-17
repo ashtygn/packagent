@@ -1,0 +1,11 @@
+[
+  {
+    "rule_id": "nc.collision",
+    "severity": "hard",
+    "location": {
+      "kind": "logical",
+      "node_id": "A1"
+    },
+    "check_version": "0.1.0"
+  }
+]

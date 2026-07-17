@@ -1,0 +1,13 @@
+[
+  {
+    "rule_id": "duplicate.ball_grid",
+    "severity": "hard",
+    "location": {
+      "kind": "logical",
+      "net": "A11"
+    },
+    "measured": "2",
+    "required": "1",
+    "check_version": "0.1.0"
+  }
+]

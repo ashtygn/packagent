@@ -1,0 +1,13 @@
+[
+  {
+    "rule_id": "duplicate.die_pad",
+    "severity": "hard",
+    "location": {
+      "kind": "logical",
+      "net": "A11_N"
+    },
+    "measured": "2",
+    "required": "1",
+    "check_version": "0.1.0"
+  }
+]

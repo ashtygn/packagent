@@ -1,5 +1,5 @@
 # pkgtk CI entry points. Deps: pip install -e .[dev]
-.PHONY: ci lint test
+.PHONY: ci lint test bench
 
 ci: lint test
 
@@ -8,3 +8,6 @@ lint:
 
 test:
 	python -m pytest
+
+bench:
+	python -m benchmarks.run

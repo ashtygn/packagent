@@ -1,0 +1,13 @@
+[
+  {
+    "rule_id": "depop.not_nc",
+    "severity": "hard",
+    "location": {
+      "kind": "logical",
+      "net": "A1"
+    },
+    "measured": "signal",
+    "required": "nc",
+    "check_version": "0.1.0"
+  }
+]
