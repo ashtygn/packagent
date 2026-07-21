@@ -22,8 +22,9 @@ something that shouldn't exist yet and does. Let the two silences land.
 > "AI has automated almost every stage of chip design — RTL, verification, layout,
 > timing. Almost every stage. Packaging is the one it skipped — right when chiplets
 > made packaging the whole ballgame. So we built packagent: a package-design verifier
-> so trustworthy you can put an AI on top of it — one that reads the field solver,
-> fixes the package, and refuses to ship when the fix isn't real. Watch."
+> so trustworthy you can put a coding agent — OpenAI's Codex — on top of it: one that
+> reads the field solver, fixes the package, and refuses to ship when the fix isn't
+> real. Watch."
 
 *(let the red curve sit for a beat before Scene 2)*
 
@@ -31,11 +32,11 @@ something that shouldn't exist yet and does. Let the two silences land.
 
 ### SCENE 2 — THE LOOP  (0:25–0:50)
 
-> "It isn't running a script. It's closing a loop that, until now, only a human
-> could close. It solves the package in Ansys SIwave — a commercial field solver.
-> It reads the physics. It edits the actual Cadence design database. It re-solves.
-> And then — this is the important part — a referee decides whether the fix is real.
-> Not the agent. The referee."
+> "The agent is OpenAI's Codex — and it isn't running a script. It's closing a loop
+> that, until now, only a human could close. Codex solves the package in Ansys
+> SIwave — a commercial field solver. It reads the physics. It edits the actual
+> Cadence design database. It re-solves. And then — this is the important part — a
+> referee decides whether the fix is real. Not the agent. The referee."
 
 ---
 
@@ -86,8 +87,8 @@ something that shouldn't exist yet and does. Let the two silences land.
 ### SCENE 6 — THE VISION  (2:35–3:00)
 
 > "Solve. Reason. Edit. Verify. Refuse. That's the entire EDA design loop — closed,
-> for the first time, by an agent. It's open source. It's agent-operable. It's on
-> GitHub right now.
+> for the first time, by a Codex agent. It's open source. It's agent-operable. It's
+> on GitHub right now.
 >
 > This is what it looks like when AI stops answering questions about chips — and
 > starts building them."
@@ -139,9 +140,9 @@ nothing in the tight cut; it precedes it.
 > we computed ourselves, and every gap in coverage is flagged out loud instead of
 > passing silently.
 >
-> Then we put AI on top of that layer. It reads the field-solver's verdict, reasons
-> about the physics, and edits the package to fix it — and a referee it can't argue
-> with decides whether the fix is real. And the best moment in the whole demo is when
+> Then we put a Codex agent — OpenAI's coding agent — on top of that layer. It reads
+> the field-solver's verdict, reasons about the physics, and edits the package to fix
+> it — and a referee it can't argue with decides whether the fix is real. And the best moment in the whole demo is when
 > the AI is handed a spec it can't satisfy honestly — and it refuses to ship.
 >
 > Everything you're about to see is generated live, reproducible from a seed, with
