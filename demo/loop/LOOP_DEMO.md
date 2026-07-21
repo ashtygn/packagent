@@ -50,6 +50,10 @@ Total ≈ 6–8 minutes of genuine agentic engineering.
   declare victory; the referee does.
 - Every iteration directory is append-only evidence (design copy, XML, aedb,
   touchstone, verdict, prediction).
+- The referee's full truth table is live-tested: `fixed:true` (round-1 fix),
+  `fixed:false` without regression (round-2 refusals; also a single-plane
+  deletion the physics proved harmless), and `regressed:true` (both planes
+  deleted → the 1824 Ω resonance returned bit-identically and was caught).
 
 ## Dress rehearsal (clean-room, committed tools only — 2026-07-21 04:53–05:00)
 

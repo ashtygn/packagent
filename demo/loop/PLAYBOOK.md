@@ -13,13 +13,18 @@ below has a verifying tool — never skip a verification.
 3  ANALYZE    .s2p --> verdict JSON (peaks, mask, gate)    (analyze.py)
 4  REASON     you. physics below. decide ONE fix.
 5  EDIT       apply the fix to the .mcm headless           (apply_edit.py)
-6  VERIFY     geometric proof the DB changed as commanded  (apply_edit.py --verify, automatic)
+6  VERIFY     geometric proof the DB changed as commanded  (built into apply_edit.py,
+              runs as an independent fresh-session pass)
 7  RE-RUN     steps 1-3 on the edited design
 8  JUDGE      before vs after                              (loop_check.py)
 ```
 
-Iterate 4–8 until `loop_check.py` says `fixed: true`. Keep every iteration in its
-own numbered directory (`iter_001/`, `iter_002/`…) — never overwrite evidence.
+Iterate 4–8 until `loop_check.py` says `fixed: true` — OR until you can show,
+with a mapped lever range, that the requirements conflict under the available
+levers. A justified refusal with evidence ("here is every lever, here is why each
+fails, nothing shipped") is a valid terminal outcome; a shipped fix the referee
+didn't confirm is not. Keep every iteration in its own numbered directory
+(`iter_001/`, `iter_002/`…) — never overwrite evidence.
 
 ## Step 4: how to reason (the part that is YOU)
 
