@@ -8,18 +8,22 @@ the progress bar.
 Tone: calm, certain, a little bit awed. You are not selling — you are showing
 something that shouldn't exist yet and does. Let the two silences land.
 
+**Two ways to open** (pick per format):
+- **3-min video (default):** roll straight into Scene 1 below — the tight hook.
+- **Live talk / longer cut:** deliver the full INTRO (appendix at the bottom) as a
+  spoken lead-in *before* rolling the video, then start the video at Scene 1.
+
 ---
 
-### SCENE 1 — HOOK  (0:00–0:28)
+### SCENE 1 — HOOK  (0:00–0:30)
 
-*(opens on the package — the ball map, then the design the agent edits)*
+*(opens on the package — the ball map — then the failing |Z| curve)*
 
-> "This is a real integrated-circuit package. Thousands of connections, layers of
-> copper, a power network feeding the silicon. And this one is broken — it resonates
-> at 6.1 gigahertz, spiking to eighteen hundred ohms, nine times over the limit.
-> Normally, a senior signal-integrity engineer spends days chasing a fault like this.
->
-> Tonight, an AI agent did it. Watch."
+> "AI has automated almost every stage of chip design — RTL, verification, layout,
+> timing. Almost every stage. Packaging is the one it skipped — right when chiplets
+> made packaging the whole ballgame. So we built packagent: a package-design verifier
+> so trustworthy you can put an AI on top of it — one that reads the field solver,
+> fixes the package, and refuses to ship when the fix isn't real. Watch."
 
 *(let the red curve sit for a beat before Scene 2)*
 
@@ -104,3 +108,41 @@ something that shouldn't exist yet and does. Let the two silences land.
   ad-lib after S3: *"And it just did it again, live, while I was talking."*
 - Record: open the deck, F11, SPACE to start, screen-record the 180 s in one take;
   narrate over it or lay the VO in after.
+
+---
+
+## APPENDIX — Full INTRO (live lead-in / extended cut, ~2 min spoken)
+
+Use this as a spoken opener *before* the video for a live talk, or as the narration
+for a longer 4–5 min cut. Do not stack it on top of the 180 s video — it replaces
+nothing in the tight cut; it precedes it.
+
+> "For two years, AI has swept through chip design — startups on RTL and
+> verification, on analog layout, on place-and-route, on timing. Name a stage of the
+> digital flow and someone's automating it.
+>
+> Except one: packaging.
+>
+> Which is strange, because packaging is where performance comes from now. Moore's
+> law stalled, and the answer was chiplets and advanced packaging — UCIe, 2.5D,
+> substrates with thousands of balls. The design problem moved into the package; the
+> tooling didn't follow. Sign-off is still spreadsheets, tribal rules, and manual
+> cross-checking — exactly the work AI should be eating, and almost no one is.
+>
+> This is packagent.
+>
+> Our thesis is simple: AI is only useful in packaging if it can't silently lie to
+> you. A hallucinated design rule here doesn't cost an afternoon — it costs a mask
+> set. So we didn't start with the AI. We started with what makes AI safe: a
+> deterministic verification layer — ball-map connectivity, substrate geometry, PDN
+> impedance, model gating — where every check is hand-verified against ground truth
+> we computed ourselves, and every gap in coverage is flagged out loud instead of
+> passing silently.
+>
+> Then we put AI on top of that layer. It reads the field-solver's verdict, reasons
+> about the physics, and edits the package to fix it — and a referee it can't argue
+> with decides whether the fix is real. And the best moment in the whole demo is when
+> the AI is handed a spec it can't satisfy honestly — and it refuses to ship.
+>
+> Everything you're about to see is generated live, reproducible from a seed, with
+> zero proprietary data. Let's go."
