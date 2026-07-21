@@ -58,6 +58,11 @@ extend-exclude = ["Archive", "reference"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "W", "UP", "B"]
 
+[tool.ruff.lint.per-file-ignores]
+# demo/phys probe scripts are captured bring-up artifacts: config-before-import
+# and long printf lines are intentional (they mirror the verified live runs).
+"demo/**" = ["E402", "E501"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
