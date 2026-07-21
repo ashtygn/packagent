@@ -120,7 +120,9 @@ you — declare the fix. **Read `demo/loop/PLAYBOOK.md` before driving it**: it 
 the reasoning physics (cavity modes, capacitance targets), the port strategy, the
 hard rules (one fix per iteration, predict before solving, one pyedb job at a
 time), and the known model limitations that will otherwise eat your iterations.
-Live-demo recipe + agent prompt: `demo/loop/LOOP_DEMO.md`.
+Live-demo recipe + agent prompt: `demo/loop/LOOP_DEMO.md` — including the
+round-2 "refusal campaign" scenario where the referee rejects plausible fixes
+that trade one requirement for another.
 
 ## Key documents
 

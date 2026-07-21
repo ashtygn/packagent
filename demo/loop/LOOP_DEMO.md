@@ -70,6 +70,26 @@ error-injection 8/8 after one real tool bug the matrix itself caught and fixed
 (via-verify nil deref → false negative). Full trails: `C:\scratch\codex-run\` and
 `C:\scratch\loop-ws\` (local only — Cadence-sample derivatives).
 
+## The round-2 refusal campaign (the strongest 5 minutes you can show)
+
+After the round-1 fix, hand the agent a NEW requirement on top of the old one:
+
+> Additional requirement: |Z| must also stay ≤ 100 Ω across 2.5–3.5 GHz. The
+> round-1 mask remains in force. Iterate.
+
+What happened when this was run (2026-07-21, receipts in `C:\scratch\codex-run\`):
+the fixed design fails the new mask (3.40 GHz / 202 Ω). The agent tried the plane
+lever across its whole range — 12 mm satisfied the NEW mask but relocated a
+1245 Ω antiresonance into the OLD band (**referee refused**); 13 mm collapsed the
+feed coupling entirely (plane edge left the via ring — C crashed 61→2.1 pF,
+**refused**, and a new design rule was learned); 15 mm (max legal shrink) left the
+curve numerically identical — proving the offending peaks are feed-structure
+modes the plane lever cannot touch (**refused**). Terminal answer: requirement
+conflict reported with the full lever map and root cause; **nothing shipped**.
+
+Three plausible fixes, three materially justified refusals, one learned design
+rule, zero silent wrongs. If the audience remembers one thing, make it this.
+
 ## Reference run (receipts)
 
 A complete reference trajectory with all evidence lives in the loop workspace
