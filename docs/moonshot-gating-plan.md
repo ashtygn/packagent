@@ -1,6 +1,19 @@
 # Moonshot: open source → fully gated
 ## pkgtk × Cadence Allegro APD+ 24.1 × Ansys SIwave 2026 R1 (PyAEDT/pyedb)
 
+> **Status addendum 2026-07-21:** substantial de-risking executed ahead of plan.
+> M0a spikes A/B/D answered live (headless SKILL incl. DRC marker readout works;
+> extracta works on .sip; bare `aif out` is form-modal — see
+> docs/tool-bringup-checklist.md). M0b executed: Ansys 2026 R1 installed, first
+> headless SYZ solve proven; SPIKE-C answered: native .sip translation blocked on
+> an ALinks license, the working bridge is full-content IPC-2581 (`-O -I`
+> mandatory). Beyond plan: `demo/loop/` implements a full closed agentic loop
+> (solve → reason → verified .mcm edit → re-solve → referee) with a robustness
+> matrix, clean-room rehearsals, and two live-discovered model limitations
+> documented (IPC-2581 via galvanic connectivity; empty barrel material —
+> auto-fixed). The M1 cassette layer remains the next milestone; the loop's
+> runners and fail-loud/verify-everything conventions are its intended substrate.
+
 Status: PLAN, rev 2 (not started). Written 2026-07-20 against pkgtk v0.1.0 (commit
 dd59358). Rev 2 incorporates an adversarial review pass (accuracy / completeness /
 feasibility panels); the material changes vs rev 1: cassette identity re-keyed on a
