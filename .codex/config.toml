@@ -1,6 +1,9 @@
 # Project config layer for Codex agents working in packagent.
-# Loaded automatically for any session under this repo (precedence: above user
-# config, below session flags). Tuning levers per docs/codex-agent-finetune-plan.md.
+# Applies to sessions under this repo ONLY once the project is trusted (codex
+# prompts on first interactive open, or set [projects."<abs path>"]
+# trust_level = "trusted" in ~/.codex/config.toml); untrusted layers load
+# disabled, silently. Precedence: above user config, below session flags.
+# Tuning levers per docs/codex-agent-finetune-plan.md.
 
 # --- spawnable specialist roles (multi-agent spawn_agent tool) -----------------
 
