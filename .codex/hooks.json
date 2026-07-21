@@ -6,9 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .codex/hooks/stop_label.py",
-            "timeout": 20,
-            "async": true
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/stop_label.py\"",
+            "timeout": 20
           }
         ]
       }

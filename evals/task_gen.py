@@ -124,11 +124,12 @@ def _gen_diagnose(design: GeneratedDesign, out_dir: Path, mutation: str) -> str:
     task_dir, work = _init_task(out_dir, task_id, _PROMPT_DIAGNOSE)
     (work / "graph.json").write_text(_dump(graph), encoding="utf-8")
     (work / "config.json").write_text(_dump(config), encoding="utf-8")
+    # No answer key in meta: the codex sandbox restricts writes, not reads, so
+    # graders recompute ground truth from (family, mutation) at grade time.
     _write_meta(task_dir, {
         "task_id": task_id,
         "family": "diagnose",
         "mutation": mutation,
-        "expected": expected,
         "input_sha256": {
             "graph.json": _sha256(work / "graph.json"),
             "config.json": _sha256(work / "config.json"),
@@ -150,10 +151,6 @@ def _gen_fix(design: GeneratedDesign, out_dir: Path, mutation: str) -> str:
         "task_id": task_id,
         "family": "fix",
         "mutation": mutation,
-        "expected": expected,
-        # The repair must restore the pre-mutation shape exactly.
-        "clean_node_count": len(design.graph.nodes),
-        "clean_edge_count": len(design.graph.edges),
         "input_sha256": {"config.json": _sha256(work / "config.json")},
     })
     return task_id
@@ -164,7 +161,6 @@ def _gen_ecodiff(design: GeneratedDesign, out_dir: Path, mutation: str) -> str:
     graph_b, _config, expected = REGISTRY[mutation](design)
     report = diff_graphs(design.graph, graph_b)
     changed_nets = {c["net"] for c in report["changes"] if c.get("net")}
-    classes = {c["class"] for c in report["changes"]}
     if expected["net"] not in changed_nets:
         raise AssertionError(f"{task_id}: expected net not visible to pkgtk diff")
     task_dir, work = _init_task(out_dir, task_id, _PROMPT_ECODIFF)
@@ -174,11 +170,6 @@ def _gen_ecodiff(design: GeneratedDesign, out_dir: Path, mutation: str) -> str:
         "task_id": task_id,
         "family": "ecodiff",
         "mutation": mutation,
-        "expected": {
-            "net": expected["net"],
-            "changed_nets": sorted(changed_nets),
-            "classes": sorted(classes),
-        },
         "input_sha256": {
             "revA.json": _sha256(work / "revA.json"),
             "revB.json": _sha256(work / "revB.json"),
@@ -203,6 +194,11 @@ def build_tasks(
     unknown = set(families) - set(_GENERATORS)
     if unknown:
         raise ValueError(f"unknown families: {sorted(unknown)}")
+    if out_dir.exists() and any(out_dir.iterdir()):
+        raise ValueError(
+            f"refusing to generate into non-empty directory {out_dir} "
+            "(pick a fresh --out)"
+        )
     design = clean_design()
     out_dir.mkdir(parents=True, exist_ok=True)
     task_ids = []

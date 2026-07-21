@@ -43,6 +43,7 @@ def _summarize_events(events: list[dict]) -> dict:
         "usage": None,
         "n_commands": 0,
         "n_failed_commands": 0,
+        "n_suspect_commands": 0,
         "n_file_changes": 0,
         "errors": [],
     }
@@ -65,9 +66,28 @@ def _summarize_events(events: list[dict]) -> dict:
                 summary["n_commands"] += 1
                 if item.get("exit_code") not in (0, None):
                     summary["n_failed_commands"] += 1
+                if _is_suspect_command(item.get("command") or ""):
+                    summary["n_suspect_commands"] += 1
             elif itype == "file_change":
                 summary["n_file_changes"] += 1
     return summary
+
+
+# The sandbox restricts writes, not reads: an agent could read grader files or
+# the generator source. Flag (don't fail) commands that look outside work/.
+_SUSPECT_PATTERNS = ("meta.json", "../", "task_gen", "evals/", "mutations")
+
+
+def _is_suspect_command(command: str) -> bool:
+    return any(p in command for p in _SUSPECT_PATTERNS)
+
+
+def _coerce_text(data) -> str:
+    if data is None:
+        return ""
+    if isinstance(data, bytes):
+        return data.decode("utf-8", errors="replace")
+    return data
 
 
 def run_task(
@@ -94,15 +114,14 @@ def run_task(
 
     started = time.monotonic()
     try:
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        proc = subprocess.run(cmd, capture_output=True, text=True,
+                              stdin=subprocess.DEVNULL, timeout=timeout)
         timed_out = False
         stdout, stderr, exit_code = proc.stdout, proc.stderr, proc.returncode
     except subprocess.TimeoutExpired as err:
         timed_out = True
-        stdout = (err.stdout or b"").decode() if isinstance(err.stdout, bytes) \
-            else (err.stdout or "")
-        stderr = (err.stderr or b"").decode() if isinstance(err.stderr, bytes) \
-            else (err.stderr or "")
+        stdout = _coerce_text(err.stdout)
+        stderr = _coerce_text(err.stderr)
         exit_code = None
     wall_secs = round(time.monotonic() - started, 1)
 
@@ -127,17 +146,21 @@ def _render_report(rows: list[dict], header: dict) -> str:
         "",
         f"- codex: `{header['codex_version']}` | model: "
         f"`{header['model'] or 'harness default'}` | "
+        f"levers: **{'on' if header.get('levers_active') else 'off'}** | "
         f"passed: **{header['n_passed']}/{header['n_tasks']}**",
         "",
-        "| Task | Pass | Cmds (fail) | Tokens out | Secs | First failure reason |",
-        "|------|:----:|-------------|-----------|------|----------------------|",
+        "| Task | Pass | Cmds (fail/suspect) | Tokens out | Secs "
+        "| First failure reason |",
+        "|------|:----:|---------------------|-----------|------"
+        "|----------------------|",
     ]
     for r in rows:
         usage = r.get("usage") or {}
         reason = r["grade_reasons"][0] if r["grade_reasons"] else ""
         lines.append(
             f"| {r['task_id']} | {'yes' if r['passed'] else 'NO'} "
-            f"| {r['n_commands']} ({r['n_failed_commands']}) "
+            f"| {r['n_commands']} ({r['n_failed_commands']}"
+            f"/{r.get('n_suspect_commands', 0)}) "
             f"| {usage.get('output_tokens', '-')} | {r['wall_secs']} | {reason} |"
         )
     lines.append("")
@@ -167,31 +190,54 @@ def main() -> int:
         return 0
 
     codex_version = subprocess.run(
-        [args.codex_bin, "--version"], capture_output=True, text=True
+        [args.codex_bin, "--version"], capture_output=True, text=True,
+        stdin=subprocess.DEVNULL,
     ).stdout.strip()
 
-    rows = []
-    for task_id in task_ids:
-        row = run_task(args.out / task_id, codex_bin=args.codex_bin,
-                       model=args.model, timeout=args.timeout,
-                       ephemeral=args.ephemeral)
-        rows.append(row)
-        status = "PASS" if row["passed"] else "FAIL"
-        print(f"[{status}] {task_id} ({row['wall_secs']}s, "
-              f"{row['n_commands']} cmds) {row['grade_reasons'][:1]}")
+    # Tasks under the repo tree load the project levers (.codex config, skills,
+    # AGENTS.md); tasks elsewhere run the stock agent. Record which this was.
+    in_project_tree = any(
+        (p / "AGENTS.md").is_file() or (p / ".codex").is_dir()
+        for p in [args.out.resolve(), *args.out.resolve().parents]
+    )
 
     header = {
         "codex_version": codex_version,
         "model": args.model,
         "families": families,
-        "n_tasks": len(rows),
-        "n_passed": sum(1 for r in rows if r["passed"]),
+        "out": str(args.out.resolve()),
+        "levers_active": in_project_tree,
+        "n_tasks": len(task_ids),
+        "n_passed": 0,
     }
-    (args.out / "report.json").write_text(
-        json.dumps({"header": header, "rows": rows}, indent=1), encoding="utf-8")
-    (args.out / "report.md").write_text(_render_report(rows, header),
-                                        encoding="utf-8")
-    print(f"passed {header['n_passed']}/{header['n_tasks']}; "
+
+    def _persist(rows_so_far: list[dict]) -> None:
+        header["n_passed"] = sum(1 for r in rows_so_far if r["passed"])
+        (args.out / "report.json").write_text(
+            json.dumps({"header": header, "rows": rows_so_far}, indent=1),
+            encoding="utf-8")
+        (args.out / "report.md").write_text(
+            _render_report(rows_so_far, header), encoding="utf-8")
+
+    rows = []
+    for task_id in task_ids:
+        try:
+            row = run_task(args.out / task_id, codex_bin=args.codex_bin,
+                           model=args.model, timeout=args.timeout,
+                           ephemeral=args.ephemeral)
+        except Exception as err:  # noqa: BLE001 - one bad task must not void the run
+            row = {"task_id": task_id, "passed": False,
+                   "grade_reasons": [f"harness error: {err!r}"],
+                   "n_commands": 0, "n_failed_commands": 0,
+                   "n_suspect_commands": 0, "wall_secs": 0.0}
+        rows.append(row)
+        _persist(rows)  # paid live runs are never lost to a later crash
+        status = "PASS" if row["passed"] else "FAIL"
+        print(f"[{status}] {task_id} ({row['wall_secs']}s, "
+              f"{row['n_commands']} cmds) {row['grade_reasons'][:1]}")
+
+    print(f"passed {header['n_passed']}/{header['n_tasks']} "
+          f"(levers_active={header['levers_active']}); "
           f"report at {args.out / 'report.md'}")
     return 0
 

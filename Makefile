@@ -4,9 +4,17 @@
 ci: lint test
 
 # Agent-eval suite (live codex runs - costs quota; deliberately NOT part of ci).
-# Usage: make eval [OUT=/path/to/run] [EVAL_ARGS="--families diagnose --limit 3"]
+# `make eval` = 3-task smoke; `make eval-full` = all 28 tasks. OUT is timestamped
+# so reruns never collide. Runs under artifacts/ sit inside the repo tree, so the
+# project levers (.codex config, skills, AGENTS.md) are ACTIVE; pass
+# OUT=/tmp/... for a stock-agent baseline. The report records which applied.
+.PHONY: eval eval-full
+EVAL_OUT = $(or $(OUT),artifacts/eval-$(shell date +%Y%m%d-%H%M%S))
 eval:
-	python -m evals.run_eval --out $(or $(OUT),artifacts/eval-run) $(EVAL_ARGS)
+	python -m evals.run_eval --out $(EVAL_OUT) --limit 1 $(EVAL_ARGS)
+
+eval-full:
+	python -m evals.run_eval --out $(EVAL_OUT) $(EVAL_ARGS)
 
 demo:
 	bash scripts/demo.sh

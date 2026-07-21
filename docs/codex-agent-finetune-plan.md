@@ -79,8 +79,9 @@ training: fixed task set, held-out split, one-variable-at-a-time, regression gat
 - `.codex/hooks.json`: Stop hook → grader script writes per-turn labels next to rollouts
   (`session_id`, `turn_id`, transcript path arrive on stdin; feature `hooks` is on by
   default).
-- Keep `fixtures/golden/**` protection tripled: AGENTS.md rule + grader hard-fail + the
-  existing pre-commit guard.
+- `fixtures/golden/**` protection stays doubled: the AGENTS.md rule plus the existing
+  pre-commit guard (eval tasks run in scratch workdirs outside the repo tree, so the
+  graders themselves never see goldens).
 
 ### Phase 3 — Tuning iterations
 Run suite → rank failure modes → move one lever → re-run. Ship gate per change: domain

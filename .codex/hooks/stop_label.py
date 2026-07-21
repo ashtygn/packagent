@@ -29,6 +29,10 @@ def main() -> int:
         ).stdout.strip()
     except Exception:
         dirty = None
+    # Deliberately no message content here: labels may leave the machine one
+    # day, and assistant text can quote NDA material. The transcript_path
+    # pointer stays local under ~/.codex; content extraction happens only
+    # behind the plan's NDA scrub.
     label = {
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "session_id": event.get("session_id"),
@@ -37,8 +41,6 @@ def main() -> int:
         "transcript_path": event.get("transcript_path"),
         "model": event.get("model"),
         "git_dirty_files": None if dirty is None else len(dirty.splitlines()),
-        "last_assistant_message_head":
-            (event.get("last_assistant_message") or "")[:200],
     }
     try:
         out = Path.home() / ".codex" / "labels"
