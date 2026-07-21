@@ -51,6 +51,25 @@ Total ≈ 6–8 minutes of genuine agentic engineering.
 - Every iteration directory is append-only evidence (design copy, XML, aedb,
   touchstone, verdict, prediction).
 
+## Dress rehearsal (clean-room, committed tools only — 2026-07-21 04:53–05:00)
+
+The full prompt was executed start-to-finish in a fresh workspace using nothing but
+this repo's committed tools, exactly as an agent would:
+
+| Step | Command | Result | Wall |
+|---|---|---|---|
+| Baseline | `run_iteration ... --edit none --mask 4:7:200` | FAIL — peak 1824 Ω @ 6.1504 GHz, C=0.84 pF | 121 s |
+| Prediction | PREDICTION.md written before solving | band collapse + 55–65 pF | — |
+| Edit ×2 | `apply_edit add-plane` VDD/SUPPLY + VSS/GROUND | both `managed_count=1` verified | 8.2 s each |
+| Fix solve | `run_iteration ... --baseline-verdict` | mask **PASS**, referee **`fixed: true`**, peak 1824→74.1 Ω (−96%) | 121 s |
+| Plane C | `build_and_solve --port-layer SUPPLY --neg-layer GROUND` | **61.0 pF ≥ 30 pF PASS** (predicted 55–65) | 65 s |
+
+Total ≈ 6.5 minutes. Robustness evidence: resize matrix 4/4 (C tracks 1/area to
+2–8%, cavity-peak scaling to 0.5%, solver determinism 1.3e-5 worst-case),
+error-injection 8/8 after one real tool bug the matrix itself caught and fixed
+(via-verify nil deref → false negative). Full trails: `C:\scratch\codex-run\` and
+`C:\scratch\loop-ws\` (local only — Cadence-sample derivatives).
+
 ## Reference run (receipts)
 
 A complete reference trajectory with all evidence lives in the loop workspace
