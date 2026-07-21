@@ -8,3 +8,6 @@ venv/
 build/
 dist/
 __MACOSX/
+# Local demo/probe artifacts are machine-generated; never commit contents.
+# (artifacts/.gitignore already enforces this from inside; this is defense-in-depth.)
+artifacts/

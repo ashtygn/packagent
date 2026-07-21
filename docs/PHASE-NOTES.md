@@ -14,10 +14,9 @@ override. Nothing here was decided silently.
   specs in each `PhaseN.md`, and recorded the interpretation choices below.
 - `GOLDEN_EDIT=1` was used to commit initial `fixtures/golden/**` content, since that is
   the human-oracle escape hatch and the directory started empty.
-- **Push to GitHub is currently blocked**: the cached credential authenticates as
-  `ashwanth-lightmatter`, which lacks write access to `ashtygn/packagent` (HTTP 403).
-  All work is committed locally; a `gh auth login` as `ashtygn` (or a PAT) will let the
-  accumulated commits push. Nothing is lost.
+- **Push to GitHub**: was blocked during the overnight build (cached credential for a
+  different account, HTTP 403); resolved since — verified 2026-07-20 that origin is
+  fully synced and the v0.1.0 tag is pushed.
 
 ## Phase 0 — Foundation
 Schemas authored (frozen v0.1.0): `rule_ir`, `connectivity_graph`, `violation`.
