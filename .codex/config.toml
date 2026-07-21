@@ -1,0 +1,16 @@
+# Project config layer for Codex agents working in packagent.
+# Applies to sessions under this repo ONLY once the project is trusted (codex
+# prompts on first interactive open, or set [projects."<abs path>"]
+# trust_level = "trusted" in ~/.codex/config.toml); untrusted layers load
+# disabled, silently. Precedence: above user config, below session flags.
+# Tuning levers per docs/codex-agent-finetune-plan.md.
+
+# --- spawnable specialist roles (multi-agent spawn_agent tool) -----------------
+
+[agents.pkg-verifier]
+description = "Verification specialist: runs pkgtk suites (verify/diff/check/escape/template) and reports findings as structured JSON. Read-only on design sources - never edits graphs, fixtures, or configs."
+config_file = "./agents/pkg-verifier.toml"
+
+[agents.eda-runner]
+description = "EDA batch specialist: drives Cadence APD and Ansys SIwave headless recipes (SKILL: apd-headless). Operates on copies only, timeboxes every solver run, and cleans up .lck files after kills."
+config_file = "./agents/eda-runner.toml"
