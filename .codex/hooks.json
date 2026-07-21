@@ -1,0 +1,16 @@
+{
+  "description": "packagent: append a per-turn label to ~/.codex/labels/packagent-turns.jsonl (behavioral-tuning corpus; see docs/codex-agent-finetune-plan.md)",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/stop_label.py\"",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}
