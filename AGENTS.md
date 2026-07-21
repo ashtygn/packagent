@@ -111,6 +111,17 @@ touchstone with `pkgtk`'s `ts_gate.gate()`. Known blocker: Cadence `.sip/.mcm �
 translation needs an ALinks-class license the server may not carry — the working
 bridge is IPC-2581 (`ipc2581_out.exe` → `Edb(edbpath='out.xml')`).
 
+## The closed loop: SIwave physics → reasoning → edit inside the Cadence DB
+
+`demo/loop/` is the agentic fix loop: solve a package's PDN headless, reason from
+the verdict JSON, edit the .mcm/.sip in headless APD (`apply_edit.py`, every edit
+independently verified in a fresh session), re-solve, and let `loop_check.py` — not
+you — declare the fix. **Read `demo/loop/PLAYBOOK.md` before driving it**: it has
+the reasoning physics (cavity modes, capacitance targets), the port strategy, the
+hard rules (one fix per iteration, predict before solving, one pyedb job at a
+time), and the known model limitations that will otherwise eat your iterations.
+Live-demo recipe + agent prompt: `demo/loop/LOOP_DEMO.md`.
+
 ## Key documents
 
 - Demo run-of-show + talk track: `docs/DEMO_SCRIPT.md` (the demo driver `demo.cmd` is
