@@ -10,12 +10,14 @@ something that shouldn't exist yet and does. Let the two silences land.
 
 ---
 
-### SCENE 1 — HOOK  (0:00–0:25)
+### SCENE 1 — HOOK  (0:00–0:28)
 
-> "This is a real integrated-circuit package. And its power-delivery network is
-> broken — it resonates at 6.1 gigahertz, spiking to eighteen hundred ohms, nine
-> times over the limit. Normally, a senior signal-integrity engineer spends days
-> chasing a fault like this.
+*(opens on the package — the ball map, then the design the agent edits)*
+
+> "This is a real integrated-circuit package. Thousands of connections, layers of
+> copper, a power network feeding the silicon. And this one is broken — it resonates
+> at 6.1 gigahertz, spiking to eighteen hundred ohms, nine times over the limit.
+> Normally, a senior signal-integrity engineer spends days chasing a fault like this.
 >
 > Tonight, an AI agent did it. Watch."
 
@@ -33,13 +35,16 @@ something that shouldn't exist yet and does. Let the two silences land.
 
 ---
 
-### SCENE 3 — THE FIX  (0:50–1:25)  ← the peak, give it air
+### SCENE 3 — THE FIX  (0:52–1:27)  ← the peak, give it air
+
+*(show the package geometry: bare via ring → the agent's copper plane appears under it)*
 
 > "Here's the reasoning. The agent looks at the curve and sees a plate capacitance
 > of under one picofarad — which means this design has no working reference planes
-> at all. So it computes the size of the planes it needs, and it draws the copper —
-> headless, inside Allegro, and every single edit is independently verified in a
-> fresh session before anything is trusted.
+> at all. So it computes the size of the planes it needs, and — watch the copper
+> appear — it draws them, right here, into the package. Headless, inside Allegro,
+> and every single edit is independently verified in a fresh session before anything
+> is trusted.
 >
 > Then it re-solves.
 >
@@ -88,8 +93,11 @@ something that shouldn't exist yet and does. Let the two silences land.
 ---
 
 ## Delivery notes
-- **~430 words / 180 s.** If you run long, the two lines to cut are the "senior
+- **~450 words / 180 s.** If you run long, the two lines to cut are the "senior
   engineer spends days" clause (S1) and the last sentence of S5.
+- **The package is on screen** in S1 (ball map + the design), S3 (the geometry, with
+  the copper plane appearing as you say "watch the copper appear"), and S6 (ball map
+  behind the closer). Time the S3 line to the plane animating in.
 - **Two deliberate silences:** end of S1 (red curve), end of S3 (green curve). Do
   not fill them — they are the emotional beats.
 - If the LIVE Codex run finishes `fixed: true` before you present, add one
