@@ -34,6 +34,10 @@ def main() -> int:
     ap.add_argument("--png", help="overlay plot of both |Z| curves + mask")
     a = ap.parse_args()
 
+    for p in (a.before_json, a.after_json):
+        if not Path(p).is_file():
+            print(f"error: verdict file not found: {p}")
+            return 2
     b, aft = load(a.before_json), load(a.after_json)
 
     peak_moves = []

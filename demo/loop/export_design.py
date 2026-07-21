@@ -29,6 +29,7 @@ def main() -> int:
 
     design = Path(a.design).resolve()
     out_xml = Path(a.out_xml).resolve()
+    out_xml.parent.mkdir(parents=True, exist_ok=True)
     exe = Path(a.apd_root) / "tools" / "bin" / "ipc2581_out.exe"
     if not design.is_file():
         print(f"error: design not found: {design}")
