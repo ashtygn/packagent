@@ -14,7 +14,7 @@ the projector and what your hands do. Read this at 5:30, run the pre-flight at 5
 | W2 | `cmd.exe` (NOT PowerShell) | `cd /d C:\scratch\open-demo\stage`, run `demo.cmd` so the menu is showing. Consolas 20–24 pt, dark scheme, maximized. |
 | W3 | KLayout — `C:\Users\MTVPhotonicsPackagin\AppData\Roaming\KLayout\klayout_app.exe` | Loaded with `stage\geom\dirty.gds`, Marker Browser docked showing `stage\geom\dirty.lyrdb` (4 markers). Fit view, then leave it. |
 | W4 | APD GUI (only if you want the beat 7 GUI moment) | Open **your own** session off-camera before the room enters, load `stage\apdbeat\demo_with_pkgtk_markers.sip`, get Display > Status ready. **Never touch the pre-existing APD GUI session (PID 40920) or any process you did not start.** |
-| W5 | (optional) agent terminal (Codex / Claude Code) | Open in the repo `C:\Users\MTVPhotonicsPackagin\packagent\packagent`, prompt idle — only for the agent-takeover closer. |
+| W5 | (optional) agent terminal (Codex) | Open in the repo `C:\Users\MTVPhotonicsPackagin\packagent\packagent`, prompt idle — only for the agent-takeover closer. |
 
 **Pin W1–W5 to taskbar slots 1–5** (drag icons into order, leftmost = W1). Then
 `Win+1 … Win+5` switches deterministically — no Alt-Tab roulette on stage.

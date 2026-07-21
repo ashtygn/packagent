@@ -92,7 +92,7 @@ template itself.
 
 Deps allowed: numpy, scipy, networkx, matplotlib, pyyaml.
 
-## Claude Code prompts
+## the coding agent prompts
 
 ### Prompt 5.1 — cavity-model PDN engine
 ```

@@ -2,7 +2,7 @@
 
 pkgtk is a deterministic, read-only verification toolkit for IC-package/substrate
 design. Every capability is a headless CLI with machine-readable output — this repo is
-designed to be driven by agents. The constraints in `CLAUDE.md` apply to ALL agents
+designed to be driven by agents. The non-negotiables at the bottom of this file apply to ALL agents
 (golden fixtures are human-only, `make ci` green before claiming done, frozen schemas,
 no network at test time).
 

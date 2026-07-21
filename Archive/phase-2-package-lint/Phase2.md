@@ -46,7 +46,7 @@ for the check primitives, and `gdstk` only for *generating* synthetic geometry. 
 - `ReportDatabase` — build categories/items programmatically and `.save("out.lyrdb")`;
   no hand-crafted XML needed. Items carry polygons/edge-pairs so markers are clickable.
 Work in integer DBU: read `layout.dbu`, convert µm→dbu once at the boundary, everything
-internal is int. Claude Code must fetch the KLayout Python API docs for Region /
+internal is int. the coding agent must fetch the KLayout Python API docs for Region /
 ReportDatabase into `reference/klayout/` before implementing.
 
 **Check semantics (put the precise versions in docs/lint-spec.md):**
@@ -83,7 +83,7 @@ Category per rule id; item per violation; attach the edge-pair or polygon.
 
 Deps allowed: klayout, gdstk, numpy, pyyaml, rich.
 
-## Claude Code prompts
+## the coding agent prompts
 
 ### Prompt 2.1 — deck loader + coverage reporter
 ```

@@ -22,7 +22,7 @@ seeded-defect benchmark with published catch rates.
 
 ## Human-only tasks (~5 hrs)
 1. **Write `docs/checks-spec.md`** — precise semantics for every check (this is the
-   file Claude Code implements against; ambiguity here becomes bugs there):
+   file the coding agent implements against; ambiguity here becomes bugs there):
    - *Bijection/multi-assignment*: a ball maps to ≤1 net; a net may map to many balls
      only if `role ∈ {gnd, pwr}` or explicitly flagged multi-ball.
    - *Missing grounds*: per declared interface region, actual gnd count ≥ template/ratio.
@@ -50,7 +50,7 @@ seeded-defect benchmark with published catch rates.
   designed to be trivially parsed; Amkor adopted it as preferred die-exchange format
   and a SKILL reader into APD exists (proof of parseability). Spec pages:
   https://www.artwork.com/package/aif/ and
-  https://www.artwork.com/package/aif/what_is_in_aif.htm — Claude Code must fetch both
+  https://www.artwork.com/package/aif/what_is_in_aif.htm — the coding agent must fetch both
   into `reference/aif/` before writing the parser. Parser rule: unknown sections are
   preserved losslessly in an `extras` dict, never dropped.
 - **Excel reality**: every org's ballmap sheet is shaped differently. Phase 1 uses a
@@ -66,7 +66,7 @@ seeded-defect benchmark with published catch rates.
   `match_group_broken`, `domain_changed`. Impact rollup counts per interface.
 - Deps allowed: pandas, openpyxl, networkx, pyyaml, rich (report rendering).
 
-## Claude Code prompts
+## the coding agent prompts
 
 ### Prompt 1.1 — AIF parser
 ```

@@ -51,7 +51,7 @@ center. In an industry allergic to demos, the benchmark table IS the launch.
   (regenerate-and-diff check).
 - vhs (charmbracelet) for scriptable terminal GIFs if you want reproducible media.
 
-## Claude Code prompts
+## the coding agent prompts
 
 ### Prompt 6.1 — CLI unification + packaging
 ```

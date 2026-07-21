@@ -1,7 +1,7 @@
 # LOOP_DEMO — live agentic run: SIwave physics → reasoning → edit inside the .sip/.mcm
 
-This is the live-demo recipe for handing the loop to a coding agent (Codex, Claude
-Code, any) and watching it fix a package **because of what the solver said** — not
+This is the live-demo recipe for handing the loop to a coding agent (Codex or any
+coding agent) and watching it fix a package **because of what the solver said** — not
 just run commands.
 
 ## What the audience sees

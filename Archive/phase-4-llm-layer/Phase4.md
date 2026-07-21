@@ -66,7 +66,7 @@ bypasses review thresholds.
   project), so model choice can favor quality; log token usage per call.
 - Deps allowed: anthropic, rich, plus Phase 0–2 internals.
 
-## Claude Code prompts
+## the coding agent prompts
 
 ### Prompt 4.1 — provider + cassette harness
 ```

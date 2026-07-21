@@ -19,7 +19,7 @@ Legend: ☐ open · ☑ done · 🔴 blocker · [YOU]/[NM]/[agent] = owner.
 - ☑ Prompt + recipe + receipts in `demo/loop/LOOP_DEMO.md`; beat 8 in DEMO_SCRIPT.md
 - ☑ Visual pack from real solves: `C:\scratch\open-demo\stage\loop-visuals\`
 - ☐ 🔴 [YOU after auth] **Run the LOOP_DEMO prompt through REAL Codex once** (not a
-  Claude stand-in) — fresh workspace, committed tools only. Budget ~10 min + one
+  a scripted stand-in) — fresh workspace, committed tools only. Budget ~10 min + one
   retry. This is the only untested link in the chain: the loop works, Codex-the-
   driver hasn't touched it yet.
 - ☐ [NM] Watch that run; if Codex stumbles on tool discovery, decide whether a

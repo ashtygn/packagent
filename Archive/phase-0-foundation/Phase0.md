@@ -2,7 +2,7 @@
 
 ## Goal
 A working monorepo with CI, the three shared schemas authored **by you** and frozen at
-v0.1, loaders/validators for them written by Claude Code, and the golden-fixture
+v0.1, loaders/validators for them written by the coding agent, and the golden-fixture
 discipline mechanically enforced. Everything downstream consumes this phase; nothing
 downstream may force changes to it without a version bump.
 
@@ -61,15 +61,15 @@ Also write `fixtures/golden/schema-examples/*.json` — one instance each, by ha
 - Pre-commit golden-fixture guard: a repo hook that rejects staged changes matching
   `fixtures/golden/` unless env var `GOLDEN_EDIT=1` (human use only).
 
-## Claude Code prompts
+## the coding agent prompts
 
 ### Prompt 0.1 — repo scaffold
 ```
 /goal Scaffold the pkgtk monorepo with CI so `make ci` runs ruff + pytest and a golden-fixture guard blocks edits under fixtures/golden/.
-/context Phase 0. Read /README.md (repo root) for layout and standing constraints; copy the standing constraints into CLAUDE.md.
+/context Phase 0. Read /README.md (repo root) for layout and standing constraints; copy the standing constraints into AGENTS.md.
 /inputs README.md (root)
 /constraints Python 3.11; deps: pytest, ruff, pydantic>=2, jsonschema, pre-commit. No src code beyond package skeleton. Makefile targets: ci, test, lint.
-/deliverables pyproject.toml, Makefile, CLAUDE.md, .pre-commit-config.yaml with golden-guard hook, src/pkgtk/__init__.py, empty dirs per layout with .gitkeep.
+/deliverables pyproject.toml, Makefile, AGENTS.md, .pre-commit-config.yaml with golden-guard hook, src/pkgtk/__init__.py, empty dirs per layout with .gitkeep.
 /verify `make ci` green on clean clone; staging a change to fixtures/golden/x.txt causes pre-commit failure.
 ```
 

@@ -43,7 +43,7 @@ required.
   IBIS-AMI .dll/.so. Output is line-oriented ERROR/WARNING/NOTE — parse into structured
   verdicts. Context: the IBIS Quality Spec grades models IQ1–IQ3 (IQ1 = zero parser
   errors, warnings explained); Zuken's tool refuses import on parser errors — that
-  refusal pattern is exactly our intake gate. Claude Code: fetch the ibischk user-guide
+  refusal pattern is exactly our intake gate. the coding agent: fetch the ibischk user-guide
   PDF into reference/ibis/ and pin the exact executable version in a lockfile note.
 - **Touchstone quality — IEEE 370-2020**: three metrics with graded bands
   (good/acceptable/inconclusive/poor): passivity (2-norm of S ≤ 1 at each frequency —
@@ -71,7 +71,7 @@ required.
   |S| explosion flag.
 - Deps allowed: scikit-rf, numpy, scipy, jinja2, sqlite3 (stdlib), rich.
 
-## Claude Code prompts
+## the coding agent prompts
 
 ### Prompt 3.1 — ibischk wrapper
 ```

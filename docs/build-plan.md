@@ -6,7 +6,7 @@ non-neural tier-0 oracles (Pillar 4) — all on three shared schemas.
 
 ## The execution model
 
-Your hours go to **schemas, golden fixtures, and domain judgment**. Claude Code writes
+Your hours go to **schemas, golden fixtures, and domain judgment**. the coding agent writes
 parsers and engines against tests you author. The safety rule is the thesis of the whole
 project:
 
@@ -40,7 +40,7 @@ Read your employment agreement. Decide: public repo from day one, or private unt
 cleared. Do all work on a personal machine. One hour, finally spent. This is the entry
 gate to Phase 0 and it is not optional.
 
-## Claude Code prompt convention
+## the coding agent prompt convention
 
 Every delegated task uses this template. One prompt = one session. Paste verbatim,
 fill brackets.
@@ -54,7 +54,7 @@ fill brackets.
 /verify <exact commands that must pass before claiming done>
 ```
 
-Standing constraints that apply to EVERY session (put them in CLAUDE.md at repo root):
+Standing constraints that apply to EVERY session (put them in AGENTS.md at repo root):
 
 1. Never modify anything under `fixtures/golden/**`. Those are human-authored ground
    truth. If a fixture looks wrong, STOP and report — do not "fix" it.
@@ -71,7 +71,7 @@ Standing constraints that apply to EVERY session (put them in CLAUDE.md at repo 
 
 ```
 pkgtk/
-  CLAUDE.md                 # standing constraints above
+  AGENTS.md                 # standing constraints above
   Makefile                  # ci, demo, bench targets
   schemas/                  # rule_ir, connectivity_graph, violation (JSON Schema + pydantic)
   src/pkgtk/                # ingest/ checks/ diff/ lint/ models/ oracles/ cli/
