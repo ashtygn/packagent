@@ -14,13 +14,30 @@ test rule. Run deliberately.
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
+import os
+import shutil
 import subprocess
 import time
 from pathlib import Path
 
 from evals.graders import grade
 from evals.task_gen import FAMILIES, build_tasks
+
+
+def _resolve_codex_bin(requested: str) -> str:
+    """Find a runnable codex. Order: explicit path/name if resolvable, then the
+    standalone install (the MSIX WindowsApps build blocks programmatic exec, and
+    the npm CLI may be absent - the AppData standalone is the reliable one)."""
+    if Path(requested).is_file() or shutil.which(requested):
+        return requested
+    local = os.environ.get("LOCALAPPDATA", "")
+    if local:
+        hits = sorted(Path(local, "OpenAI", "Codex", "bin").glob("*/codex.exe"))
+        if hits:
+            return str(hits[-1])
+    return requested  # let it fail loudly with the original name
 
 
 def _parse_events(stdout: str) -> list[dict]:
@@ -114,10 +131,17 @@ def run_task(
 
     started = time.monotonic()
     try:
-        proc = subprocess.run(cmd, capture_output=True, text=True,
+        # Force UTF-8 decode: codex emits UTF-8 JSON, but text=True decodes with
+        # the locale codec (cp1252 on Windows) and crashes on the first non-cp1252
+        # byte. errors="replace" + _coerce_text guarantee stdout is always a str,
+        # so a decode hiccup can never surface as a NoneType harness error.
+        proc = subprocess.run(cmd, capture_output=True,
+                              encoding="utf-8", errors="replace",
                               stdin=subprocess.DEVNULL, timeout=timeout)
         timed_out = False
-        stdout, stderr, exit_code = proc.stdout, proc.stderr, proc.returncode
+        stdout = _coerce_text(proc.stdout)
+        stderr = _coerce_text(proc.stderr)
+        exit_code = proc.returncode
     except subprocess.TimeoutExpired as err:
         timed_out = True
         stdout = _coerce_text(err.stdout)
@@ -169,7 +193,9 @@ def _render_report(rows: list[dict], header: dict) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--out", required=True, type=Path)
+    ap.add_argument("--out", type=Path, default=None,
+                    help="output dir (default: artifacts/eval-<timestamp>; "
+                         "Python owns the stamp so no shell `date` is needed)")
     ap.add_argument("--families", default=",".join(FAMILIES))
     ap.add_argument("--limit", type=int, default=None,
                     help="max tasks per family")
@@ -181,6 +207,10 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true",
                     help="generate + validate tasks, skip codex runs")
     args = ap.parse_args()
+    if args.out is None:
+        stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        args.out = Path("artifacts") / f"eval-{stamp}"
+    args.codex_bin = _resolve_codex_bin(args.codex_bin)
 
     families = tuple(f for f in args.families.split(",") if f)
     task_ids = build_tasks(args.out, families=families,
@@ -189,10 +219,10 @@ def main() -> int:
     if args.dry_run:
         return 0
 
-    codex_version = subprocess.run(
-        [args.codex_bin, "--version"], capture_output=True, text=True,
-        stdin=subprocess.DEVNULL,
-    ).stdout.strip()
+    codex_version = _coerce_text(subprocess.run(
+        [args.codex_bin, "--version"], capture_output=True,
+        encoding="utf-8", errors="replace", stdin=subprocess.DEVNULL,
+    ).stdout).strip()
 
     # Tasks under the repo tree load the project levers (.codex config, skills,
     # AGENTS.md); tasks elsewhere run the stock agent. Record which this was.

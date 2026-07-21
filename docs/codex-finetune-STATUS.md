@@ -16,21 +16,43 @@ Updated 2026-07-21.
 | Adversarial review pass (19 confirmed findings fixed) | commit history | multi-agent review with per-finding reproduction; regression tests added for every grader hole (spam, incomplete sets, free-text, answer-key leak, crash paths) |
 | Machine setup | `~/.codex/config.toml` marks this repo `trust_level = "trusted"` | skills/AGENTS.md render only for trusted projects |
 
-## Blocked — needs one user action
+## Resolved 2026-07-21 — auth was fine; it was binary selection + Windows portability
 
-**Codex auth is dead on this machine.** Live runs fail with *"Your access token could
-not be refreshed because your refresh token was already used. Please log out and
-sign in again."* A 3-task smoke (`make eval EVAL_ARGS="--limit 1"`) confirmed the
-runner works end-to-end up to the model call (tasks generated, codex spawned, JSONL
-parsed, graders produced correct failure reasons).
+The earlier "auth is dead" symptom was a **which-codex** problem, not a token
+problem. Three codex installs coexist on this machine:
 
-→ Run **`codex logout && codex login`** (ChatGPT sign-in), then:
+- **MSIX / WindowsApps** (`Program Files\WindowsApps\...\codex.exe`) — sandboxed;
+  returns "Access is denied" when driven programmatically. Do not target this one.
+- **npm `@openai/codex`** (the `codex` on PATH the harness defaulted to) — **not
+  actually installed here**, so `--codex-bin codex` didn't resolve.
+- **Standalone** `%LOCALAPPDATA%\OpenAI\Codex\bin\<hash>\codex.exe` (v0.145.0-
+  alpha.27) — **installed and logged in** ("Logged in using ChatGPT"; `auth.json`
+  refreshed 2026-07-21). This is the runnable one.
+
+Two Windows-portability bugs in the harness itself (both now fixed, `make ci` green):
+
+1. **`make eval` default OUT hung on interactive `date`.** `$(shell date +...)` is
+   valid on Unix but Windows `date` prompts. Fixed: `run_eval` owns the default
+   output dir (`artifacts/eval-<timestamp>` stamped in Python); the Makefile no
+   longer shells out to `date`, and passes `--out` only when `OUT=` is given.
+2. **cp1252 decode crash → NoneType harness error.** `subprocess.run(text=True)`
+   decoded codex's UTF-8 output with the Windows locale codec and died on the first
+   non-cp1252 byte, recording every task as `harness error: AttributeError(...)`.
+   Fixed: explicit `encoding="utf-8", errors="replace"` + `_coerce_text` on both
+   the exec call and the `--version` call.
+
+Also added: `run_eval._resolve_codex_bin` auto-finds the standalone binary when
+`codex` isn't on PATH, so `make eval` works with no `--codex-bin` on this machine.
+
+→ Just run (auth already live):
 
 ```bash
-make eval          # 3-task smoke (~minutes, small quota)
-make eval-full     # full 28-task gpt-5.6-sol baseline (levers ON under artifacts/)
+make eval          # 3-task smoke (~minutes, small quota) - codex auto-resolved
+make eval-full     # full 28-task baseline (levers ON under artifacts/)
 make eval-full OUT=/tmp/pkgtk-baseline   # stock-agent baseline (levers OFF)
 ```
+If `codex` ever needs to be explicit:
+`EVAL_ARGS='--codex-bin "%LOCALAPPDATA%\OpenAI\Codex\bin\<hash>\codex.exe"'`.
 
 ## Next (per plan §Phase 3, after baseline exists)
 

@@ -2,11 +2,13 @@
 
 Legend: ☐ open · ☑ done · 🔴 blocker · [YOU]/[NM]/[agent] = owner.
 
-## 🔴 T-0 blockers (nothing live runs until these)
+## T-0 blockers — CLEARED 2026-07-21
 
-- ☐ 🔴 [YOU] **Re-auth Codex on this machine**: `codex logout && codex login`
-  (ChatGPT sign-in). Everything Codex-live — the loop demo, the eval baselines —
-  is blocked on this one command. (refresh token burned; see codex-finetune-STATUS)
+- ☑ **Codex auth** — was never dead; standalone `%LOCALAPPDATA%\OpenAI\Codex\bin\`
+  build is logged in (auth.json refreshed today). The "dead auth" was binary
+  selection (MSIX blocked / npm absent) + two Windows harness bugs, both now fixed
+  (UTF-8 decode + Python-owned timestamp; codex-bin auto-resolves). See
+  codex-finetune-STATUS.
 - ☐ [YOU] First interactive Codex session in the repo will prompt to trust
   `.codex/hooks.json` — **accept it** or the turn labeler silently won't run.
 
