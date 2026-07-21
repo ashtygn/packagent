@@ -289,3 +289,27 @@ at the times above, and prebaked transcripts exist for all of them anyway. The
 only environment-dependent pieces are beat 7 (Cadence install + license seat;
 self-skips with fallbacks) and the beat 6 live re-solve (solver license; the
 default beat 6 needs no license at all).
+
+---
+
+## Beat 8 (extended, ~7 min) -- the agentic loop: an agent fixes the package because of the physics
+
+This is the closer for a technical audience with time. Full recipe, the exact
+agent prompt, dress-rehearsal receipts, and the round-2 "refusal campaign"
+scenario live in `demo/loop/LOOP_DEMO.md`; the agent operating manual is
+`demo/loop/PLAYBOOK.md`.
+
+**Say:** "Everything so far checked designs. Now watch an agent change one --
+because of what the field solver said. It will solve the package, read the
+verdict, compute the fix from cavity physics, edit the Cadence database headless
+with independently verified SKILL, predict the outcome numerically before
+re-solving, and then a referee tool -- not the agent -- decides whether the fix
+is real. In rehearsal the referee confirmed the fix in six and a half minutes:
+resonance down 96 percent, plane capacitance within the prediction. And when we
+then added a conflicting requirement, the referee refused three plausible fixes
+in a row rather than trade one mask for another. That refusal is the product."
+
+**Type:** hand the agent terminal (W5) the prompt from `demo/loop/LOOP_DEMO.md`.
+
+**Fallback:** narrate from the rehearsal receipts in LOOP_DEMO.md -- every number
+there was measured, not projected.
