@@ -105,6 +105,16 @@ package port. Do not burn iterations re-fixing the design — the design is righ
 the model is the limit. Verify at plane level, file the discrepancy, and (future)
 cross-check with Sigrity PowerSI or HFSS 3D Layout.
 
+**Ring-coverage floor (discovered in the round-2 campaign).** A reference plane
+must extend UNDER its net's via ring or package-level coupling collapses (the
+13 mm iteration crashed C from 61→2.1 pF because the plane edge stopped short of
+the 6.75–7.25 mm VDD ring). Before proposing a resize, map the feed-ring radii
+(padstack-instance xy of the net) and treat ring coverage as a hard constraint on
+the lever range. Corollary: when a legal-range resize leaves the curve
+numerically unchanged, the measured resonances belong to the feed structure, not
+the planes — switch lever class (damping/stitching/decap) or report the
+requirement conflict.
+
 **Bit-identical results are a red flag.** If a re-solve returns the identical
 number to 3 decimals after a change, your change did not reach the solve OR the
 mechanism you changed is inert. Verify persistence by re-opening the solved .aedb
