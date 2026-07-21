@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>packagent — silent slideshow (graphs &amp; receipts)</title>
+<title>packagent — graphs &amp; receipts</title>
 <style>
   :root{
     --bg:#0b0e14; --panel:#0e1420; --line:#1c2634; --ink:#e8eef7; --dim:#8b98a9;
@@ -29,7 +29,7 @@
   header b{color:var(--ink)}header b i{color:var(--amber);font-style:normal}
   .slide{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:10px;padding:52px 56px 62px;
-    opacity:0;transform:scale(.985);transition:opacity .7s ease,transform .7s ease;
+    opacity:0;transform:scale(.985);transition:opacity .45s ease,transform .45s ease;
     pointer-events:none}
   .slide.active{opacity:1;transform:none}
   .kicker{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
@@ -69,7 +69,6 @@
   <div id="bar"></div>
   <header>
     <b>PACK<i>AGENT</i></b>
-    <span>silent loop · no audio</span>
     <span id="count">1 / 10</span>
   </header>
 
@@ -193,7 +192,7 @@
 
 <script>
 (function(){
-  var HOLD = 8000;                       // ms per slide, auto-loop, no audio
+  var HOLD = 5000;                       // ms per slide, auto-loop
   var slides = [].slice.call(document.querySelectorAll('.slide'));
   var dots = document.getElementById('dots');
   var count = document.getElementById('count');
