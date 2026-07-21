@@ -62,6 +62,9 @@ select = ["E", "F", "I", "W", "UP", "B"]
 # demo/phys probe scripts are captured bring-up artifacts: config-before-import
 # and long printf lines are intentional (they mirror the verified live runs).
 "demo/**" = ["E402", "E501"]
+# The pitch builder is the same class of stage artifact: an HTML template
+# embedded in Python, where line length tracks the markup, not the code.
+"docs/pitch-assets/build_pitch.py" = ["E501", "UP031"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

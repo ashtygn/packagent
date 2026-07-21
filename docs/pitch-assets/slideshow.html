@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>packagent — silent slideshow (graphs &amp; receipts)</title>
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#0e1420; --line:#1c2634; --ink:#e8eef7; --dim:#8b98a9;
+    --cyan:#39c5cf; --amber:#e3b341; --red:#f85149; --green:#3fb950;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:#000;color:var(--ink);
+    font:16px/1.5 -apple-system,"SF Pro Text","Segoe UI",Inter,Roboto,sans-serif;
+    display:flex;align-items:center;justify-content:center;overflow:hidden}
+  /* 16:9 letterboxed stage, like the deck */
+  #stage{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;
+    background:var(--bg);overflow:hidden}
+  #stage::before{content:"";position:absolute;inset:0;z-index:0;opacity:.5;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:72px 72px}
+  #bar{position:absolute;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--cyan),var(--amber))}
+  header{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;
+    justify-content:space-between;align-items:center;padding:14px 24px;
+    font-size:12px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase}
+  header b{color:var(--ink)}header b i{color:var(--amber);font-style:normal}
+  .slide{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:10px;padding:52px 56px 62px;
+    opacity:0;transform:scale(.985);transition:opacity .7s ease,transform .7s ease;
+    pointer-events:none}
+  .slide.active{opacity:1;transform:none}
+  .kicker{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+  .kicker.warn{color:var(--amber)} .kicker.bad{color:var(--red)}
+  h1{font-size:clamp(20px,2.6vw,36px);font-weight:800;letter-spacing:-.01em;
+    text-align:center;background:linear-gradient(180deg,#fff,#b9c6d8);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .shot{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%}
+  .shot img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;
+    border:1px solid var(--line);background:#fff;
+    box-shadow:0 24px 80px rgba(0,0,0,.55)}
+  .cap{text-align:center;color:var(--dim);max-width:88ch;
+    font-size:clamp(11px,1.15vw,15px);line-height:1.45}
+  .cap b{color:var(--ink)} .cap .c{color:var(--cyan)} .cap .a{color:var(--amber)}
+  .cap .r{color:var(--red)} .cap .g{color:var(--green)}
+  /* stat cards (title / receipts slides) */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:min(1020px,92%)}
+  .card{background:linear-gradient(180deg,#111823,#0c1119);border:1px solid var(--line);
+    border-radius:12px;padding:20px 18px;text-align:center}
+  .card .n{font-size:clamp(22px,2.6vw,34px);font-weight:800;color:var(--cyan)}
+  .card .n.a{color:var(--amber)} .card .n.g{color:var(--green)}
+  .card .l{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+  .wordmark{font-size:clamp(40px,6vw,84px);font-weight:800;letter-spacing:-.02em}
+  .wordmark .a{color:#fff}.wordmark .b{color:var(--cyan)}
+  footer{position:absolute;bottom:0;left:0;right:0;z-index:40;display:flex;
+    justify-content:space-between;align-items:center;padding:14px 24px;
+    font-size:12px;color:var(--dim)}
+  #dots{display:flex;gap:8px}
+  #dots i{width:7px;height:7px;border-radius:50%;background:#2a3648;transition:background .3s}
+  #dots i.on{background:var(--cyan)}
+  kbd{background:#1a2331;border:1px solid #2a3648;border-radius:4px;padding:1px 7px;
+    font:11px/1.6 ui-monospace,Menlo,monospace;color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bar"></div>
+  <header>
+    <b>PACK<i>AGENT</i></b>
+    <span>silent loop · no audio</span>
+    <span id="count">1 / 10</span>
+  </header>
+
+  <!-- 1 · title -->
+  <section class="slide" data-k="">
+    <div class="kicker">silicon-package power integrity · closed-loop</div>
+    <div class="wordmark"><span class="a">pack</span><span class="b">agent</span></div>
+    <p class="cap">Package-design verification — closed-loop, by an AI agent.<br>
+      Every number on the plots that follow is <b>solver-verified and reproducible</b>.</p>
+    <div class="grid">
+      <div class="card"><div class="n">2025</div><div class="l">balls · 45×45</div></div>
+      <div class="card"><div class="n a">26</div><div class="l">solver-signed result trees</div></div>
+      <div class="card"><div class="n g">3×</div><div class="l">bit-identical reruns</div></div>
+      <div class="card"><div class="n">−96%</div><div class="l">resonance collapse</div></div>
+    </div>
+  </section>
+
+  <!-- 2 · the package -->
+  <section class="slide">
+    <div class="kicker">the package</div>
+    <h1>PHOTON-X1 — 2025 balls, 45×45</h1>
+    <div class="shot"><img src="06_ballmap_photonx1.png" alt="PHOTON-X1 ball map"></div>
+    <p class="cap">Synthetic 2025-ball package, generated from a seed — <b>zero proprietary
+      data</b>. Ball-map connectivity is verified by pkgtk's deterministic check engine.</p>
+  </section>
+
+  <!-- 3 · the failure -->
+  <section class="slide">
+    <div class="kicker bad">the failure</div>
+    <h1>1824 Ω where 200 Ω is allowed</h1>
+    <div class="shot"><img src="01_baseline_fail.png" alt="Baseline |Z| failing the mask"></div>
+    <p class="cap">Ansys SIwave solve of the power network: <span class="r"><b>1824 Ω @
+      6.15 GHz</b></span> against the <b>≤200 Ω</b> mask across 4–7 GHz. A plate capacitance
+      under 1 pF says the design has <b>no working reference planes at all</b>.</p>
+  </section>
+
+  <!-- 4 · the edit -->
+  <section class="slide">
+    <div class="kicker">the edit — inside allegro, headless</div>
+    <h1>The agent draws the copper</h1>
+    <div class="shot"><img src="08_pkg_geometry_before_after.png" alt="Package geometry before/after"></div>
+    <p class="cap">Bare via ring → reference planes, computed then drawn by the agent in the
+      Cadence database (APD 24.1, headless SKILL). Every edit is <b>independently verified in a
+      fresh session</b> before it is trusted.</p>
+  </section>
+
+  <!-- 5 · the fix -->
+  <section class="slide">
+    <div class="kicker">the fix — re-solved</div>
+    <h1>1824 Ω → 74 Ω&nbsp;&nbsp;(−96%)</h1>
+    <div class="shot"><img src="03_before_after.png" alt="Before/after |Z| curves"></div>
+    <p class="cap"><span class="r">BEFORE 1824.4 Ω @ 6.15 GHz</span> →
+      <span class="g">AFTER 74.1 Ω @ 6.00 GHz</span> — mask <b class="g">PASS</b>. Plane
+      capacitance <b>61.0 pF</b> measured; the agent predicted it <b>in writing, before
+      solving</b> (51 pF + fringing; requirement ≥30 pF).</p>
+  </section>
+
+  <!-- 6 · the fixed curve -->
+  <section class="slide">
+    <div class="kicker">sign-off view</div>
+    <h1>The fixed network, alone</h1>
+    <div class="shot"><img src="02_fixed_pass.png" alt="Fixed |Z| curve passing the mask"></div>
+    <p class="cap">The re-solved curve under the mask, 4–7 GHz clean. Referee verdict:
+      <b class="g">fixed: true</b> — proven three times, clean-room, bit-identical.</p>
+  </section>
+
+  <!-- 7 · the refusal -->
+  <section class="slide">
+    <div class="kicker bad">the refusal</div>
+    <h1>3 plausible fixes · 3 justified refusals</h1>
+    <div class="shot"><img src="04_round2_refused.png" alt="A refused fix trading one band for another"></div>
+    <p class="cap">Handed a second, conflicting requirement, the agent's candidate fixes each
+      trade one spec away (<span class="r">~1245 Ω regressed</span> in the old band). The
+      independent referee <b class="r">refuses all three</b> — nothing ships, the conflict is
+      reported with evidence.</p>
+  </section>
+
+  <!-- 8 · the physics receipt -->
+  <section class="slide">
+    <div class="kicker warn">the physics receipt</div>
+    <h1>Open oracle vs commercial solver</h1>
+    <div class="shot"><img src="05_cavity_vs_siwave.png" alt="Cavity oracle vs SIwave overlay"></div>
+    <p class="cap">pkgtk's open-source cavity oracle (<span class="c">cyan</span>) against
+      Ansys SIwave (<span class="a">amber</span>): resonance peaks agree within
+      <b>3.68%</b> and <b>1.00%</b>. Solver output passes the physics gate — passivity
+      σ<sub>max</sub> 0.999973, reciprocity exact.</p>
+  </section>
+
+  <!-- 9 · pkgtk's own PDN view -->
+  <section class="slide">
+    <div class="kicker">the toolkit</div>
+    <h1>pkgtk's own PDN impedance view</h1>
+    <div class="shot"><img src="07_pdn_z.png" alt="pkgtk PDN |Z| plot"></div>
+    <p class="cap">The same physics, computed by the open toolkit itself — every check
+      deterministic, exit-code contracted, agent-operable (<b>pkgtk pdn --png</b>).</p>
+  </section>
+
+  <!-- 10 · receipts / closer -->
+  <section class="slide">
+    <div class="kicker">the receipts</div>
+    <h1>Real runs. Real physics. Real edits.</h1>
+    <div class="grid">
+      <div class="card"><div class="n a">26</div><div class="l">solver-signed result trees</div></div>
+      <div class="card"><div class="n g">3×</div><div class="l">reproduced bit-identical</div></div>
+      <div class="card"><div class="n">4/4</div><div class="l">physics robustness matrix</div></div>
+      <div class="card"><div class="n">8/8</div><div class="l">error-injection matrix</div></div>
+      <div class="card"><div class="n">3.68% / 1.00%</div><div class="l">oracle vs solver peaks</div></div>
+      <div class="card"><div class="n">1.3×10⁻⁵</div><div class="l">worst-case determinism</div></div>
+      <div class="card"><div class="n g">fixed: true</div><div class="l">referee verdict, round 1</div></div>
+      <div class="card"><div class="n r" style="color:var(--red)">3× refused</div><div class="l">round 2 — nothing shipped</div></div>
+    </div>
+    <p class="cap">Cadence Allegro APD 24.1 · Ansys SIwave 2026 R1 · pyedb · KLayout<br>
+      <b>github.com/ashtygn/packagent</b></p>
+  </section>
+
+  <footer>
+    <span id="dots"></span>
+    <span><kbd>Space</kbd> pause · <kbd>←</kbd><kbd>→</kbd> navigate · <kbd>F11</kbd> fullscreen</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var HOLD = 8000;                       // ms per slide, auto-loop, no audio
+  var slides = [].slice.call(document.querySelectorAll('.slide'));
+  var dots = document.getElementById('dots');
+  var count = document.getElementById('count');
+  var bar = document.getElementById('bar');
+  slides.forEach(function(_, i){ dots.appendChild(document.createElement('i')); });
+  var di = [].slice.call(dots.children);
+  var cur = 0, paused = false, t0 = performance.now();
+
+  function show(i){
+    cur = (i + slides.length) % slides.length;
+    slides.forEach(function(s, j){ s.classList.toggle('active', j === cur); });
+    di.forEach(function(d, j){ d.classList.toggle('on', j === cur); });
+    count.textContent = (cur + 1) + ' / ' + slides.length;
+    t0 = performance.now();
+  }
+  function tick(now){
+    if (!paused){
+      var el = now - t0;
+      bar.style.width = Math.min(100, el / HOLD * 100) + '%';
+      if (el >= HOLD) show(cur + 1);
+    }
+    requestAnimationFrame(tick);
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.key === ' ' || e.key === 'Spacebar'){ e.preventDefault(); paused = !paused; t0 = performance.now(); }
+    else if (e.key === 'ArrowRight'){ show(cur + 1); }
+    else if (e.key === 'ArrowLeft'){ show(cur - 1); }
+  });
+  document.addEventListener('click', function(){ show(cur + 1); });
+  show(0);
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
